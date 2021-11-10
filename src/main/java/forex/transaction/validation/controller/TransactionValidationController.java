@@ -1,5 +1,7 @@
 package forex.transaction.validation.controller;
 
+import forex.transaction.validation.domain.SpotTransaction;
+import forex.transaction.validation.domain.Transaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +13,7 @@ import java.util.List;
 @RestController
 public class TransactionValidationController {
     @PostMapping("/validate")
-    String validate(@RequestBody List<String> transactions) {
+    String validate(@RequestBody List<Transaction> transactions) {
         log.debug("Transactions validation for transactions: {}", transactions);
 
         return "OK";
