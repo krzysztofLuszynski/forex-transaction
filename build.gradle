@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'forex.transaction.validation'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.register("which-java") {
+    doLast {
+        println System.getProperty("java.home")
+    }
+}
