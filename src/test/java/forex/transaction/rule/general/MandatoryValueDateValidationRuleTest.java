@@ -1,10 +1,10 @@
-package forex.transaction.rule.spot;
+package forex.transaction.rule.general;
 
 import forex.transaction.domain.SpotTransaction;
 import forex.transaction.domain.Transaction;
 import forex.transaction.validation.ValidationContext;
 import forex.transaction.validation.ValidationError;
-import forex.transaction.validation.rule.spot.MandatoryValueDateValidationRule;
+import forex.transaction.validation.rule.general.MandatoryValueDateValidationRule;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MandatoryValueDateValidationRuleTest {
-    MandatoryValueDateValidationRule mandatoryValueDateValidationRule = new MandatoryValueDateValidationRule();
+    MandatoryValueDateValidationRule mandatoryValueDateValidationRule = new MandatoryValueDateValidationRule("spot");
 
     @Test
     void validateValueDatePresent() {

@@ -26,6 +26,10 @@ public class TransactionValidationController {
     @Qualifier("spotTransactionValidator")
     TransactionValidator spotTransactionValidator;
 
+    @Autowired
+    @Qualifier("forwardTransactionValidator")
+    TransactionValidator forwardTransactionValidator;
+
     @PostMapping("/validate")
     TransactionsValidationResult validate(@RequestBody List<Transaction> transactions) {
         log.debug("Transactions validation for transactions: {}", transactions);
@@ -46,7 +50,9 @@ public class TransactionValidationController {
     private TransactionValidator getTransactionValidatorForTransaction(Transaction transaction) {
         if (transaction instanceof SpotTransaction) {
             return spotTransactionValidator;
-        } else {
+        } else if(transaction instanceof ForwardTransaction) {
+            return forwardTransactionValidator;
+        } else{
             return new TransactionValidator(Collections.emptyList());
         }
     }

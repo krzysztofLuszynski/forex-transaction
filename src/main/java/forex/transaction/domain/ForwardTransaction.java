@@ -9,6 +9,6 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
-public class ForwardTransaction extends Transaction {
+public class ForwardTransaction extends AbstractSpotForwardTransaction {
     LocalDate valueDate;
 }
