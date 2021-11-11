@@ -24,7 +24,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-19\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
 ```
 
-## Discussion of the solution
+## Solution discussion
 ### Because I have not much time for this task I decided to take following assumptions:
 #### For such endpoint it would be good to validate much more for example date formats, if fields are present or not etc, but because there is nothing such stated in the task I am skipping that
 #### Because full validation would be on the objects DTO, I am not doing that that's why I changed to use domain objects in the request and do not use mapping between DTO and domain objects - in normal application with more time I would go with broader validation of the request like stated in point before
@@ -39,10 +39,10 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Generation of blank project
 #### Added validate REST to project
 
-### Domain objects for transactions - 2h
+### Domain objects for transactions - 2h30m
 #### Created basic infrastructure for tests in the code
 #### Created object for Spot (along with first test)
 #### Created object for Forward (along with first test)
 #### Created object for VanillaOption (along with first test)
 #### Changed packages, project name, repository name to pattern forex.transaction
-#### Updated README with basic instructions
+#### Updated README with basic instructions and discussion of the solution
