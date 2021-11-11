@@ -2,6 +2,7 @@ package forex.transaction.validation.domain;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import forex.transaction.validation.domain.vanilla.option.VanillaOptionTransaction;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,7 +11,8 @@ import java.time.LocalDate;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SpotTransaction.class, name = "Spot"),
-        @JsonSubTypes.Type(value = ForwardTransaction.class, name = "Forward")
+        @JsonSubTypes.Type(value = ForwardTransaction.class, name = "Forward"),
+        @JsonSubTypes.Type(value = VanillaOptionTransaction.class, name = "VanillaOption")
 })
 @Data
 public class Transaction {
