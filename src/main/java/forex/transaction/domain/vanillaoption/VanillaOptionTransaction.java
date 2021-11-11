@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
 public class VanillaOptionTransaction extends Transaction {
-    VanillaOptionStyle style;
+    String style;
     VanillaOptionStrategy strategy;
     LocalDate deliveryDate;
     LocalDate expiryDate;

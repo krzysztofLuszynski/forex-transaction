@@ -17,10 +17,24 @@ public class SupportedCustomerValidationRuleTest {
             = new SupportedCustomerValidationRule(List.of("YODA1", "YODA2"));
 
     @Test
+    void validateNullCustomer() {
+        Transaction transaction = new Transaction(){};
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 1L);
+
+        Optional<ValidationError> validationError = supportedCustomerValidationRule.validate(validationContext);
+
+        assertThat(validationError).isNotEmpty();
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 1L);
+        assertThat(validationError.get().getAffectedFields()).containsExactly("customer");
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
+                "Unsupported customer: null, supported values are: [YODA1, YODA2]");
+    }
+
+    @Test
     void validateSupportedYODA1Customer() {
         Transaction transaction = new Transaction(){};
         transaction.setCustomer("YODA1");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 1L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 2L);
 
         Optional<ValidationError> validationError = supportedCustomerValidationRule.validate(validationContext);
 
@@ -31,7 +45,7 @@ public class SupportedCustomerValidationRuleTest {
     void validateSupportedYODA2Customer() {
         Transaction transaction = new Transaction(){};
         transaction.setCustomer("YODA2");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 2L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 3L);
 
         Optional<ValidationError> validationError = supportedCustomerValidationRule.validate(validationContext);
 
@@ -42,12 +56,12 @@ public class SupportedCustomerValidationRuleTest {
     void validateUnsupportedyoda1Customer() {
         Transaction transaction = new Transaction(){};
         transaction.setCustomer("yoda1");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 3L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 4L);
 
         Optional<ValidationError> validationError = supportedCustomerValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
-        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 3L);
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 4L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("customer");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
                 "Unsupported customer: yoda1, supported values are: [YODA1, YODA2]");
@@ -60,12 +74,12 @@ public class SupportedCustomerValidationRuleTest {
 
         Transaction transaction = new Transaction(){};
         transaction.setCustomer("YODA1");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 4L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 5L);
 
         Optional<ValidationError> validationError = supportedCustomerValidationRuleEmptyList.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
-        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 4L);
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 5L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("customer");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
                 "Unsupported customer: YODA1, supported values are: []");

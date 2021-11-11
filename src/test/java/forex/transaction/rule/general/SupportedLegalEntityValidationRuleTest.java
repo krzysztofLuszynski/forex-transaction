@@ -17,10 +17,24 @@ public class SupportedLegalEntityValidationRuleTest {
             new SupportedLegalEntityValidationRule(List.of("UBS AG"));
 
     @Test
+    void validateNullLegalEntity() {
+        Transaction transaction = new Transaction(){};
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 1L);
+
+        Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
+
+        assertThat(validationError).isNotEmpty();
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 1L);
+        assertThat(validationError.get().getAffectedFields()).containsExactly("legalEntity");
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
+                "Unsupported legal entity: null, supported values are: [UBS AG]");
+    }
+
+    @Test
     void validateSupportedUBSAGLegalEntity() {
         Transaction transaction = new Transaction(){};
         transaction.setLegalEntity("UBS AG");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 1L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 2L);
 
         Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
 
@@ -28,33 +42,33 @@ public class SupportedLegalEntityValidationRuleTest {
     }
 
     @Test
-    void validateUnsupportedubsAGCustomer() {
+    void validateUnsupportedubsAGCLegalEntity() {
         Transaction transaction = new Transaction(){};
         transaction.setLegalEntity("ubs AG");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 2L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 3L);
 
         Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
-        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 2L);
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 3L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("legalEntity");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
                 "Unsupported legal entity: ubs AG, supported values are: [UBS AG]");
     }
 
     @Test
-    void validateCustomerEmptySupportedCustomerList() {
+    void validateCustomerEmptySupportedLegalEntityList() {
         SupportedLegalEntityValidationRule supportedCustomerValidationRuleEmptyList
                 = new SupportedLegalEntityValidationRule(Collections.emptyList());
 
         Transaction transaction = new Transaction(){};
         transaction.setLegalEntity("UBS AG");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 3L);
+        ValidationContext<Transaction> validationContext = new ValidationContext<>(transaction, 4L);
 
         Optional<ValidationError> validationError = supportedCustomerValidationRuleEmptyList.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
-        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 3L);
+        assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 4L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("legalEntity");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
                 "Unsupported legal entity: UBS AG, supported values are: []");

@@ -27,7 +27,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 # Example of validation of one valid VanillaOption transaction
 curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-19\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
 # Example of validation of one valid VanillaOption transaction
-curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
+curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN1\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
                     
 ```
 
@@ -54,7 +54,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### validate the value date against the product type - DONE, checked if it is not null for spot and forward
 
 ### Options specific:
-#### the style can be either American or European
+#### the style can be either American or European - DONE
 #### American option style will have in addition the excerciseStartDate, which has to be after the trade date but before the expiry date
 #### expiry date and premium date shall be before delivery date - DONE
 
@@ -97,7 +97,8 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Updated integration tests for case with invalid vanilla option transaction
 #### Updated README with case for invalid vanilla option transaction
 
-### Implementation of more rules and refactorings - 1h
+### Implementation of more rules and refactorings - 2h
 #### Refactored messages of existing validation rules to be better reusable
 #### Added PremiumDateBeforeDeliveryDateValidationRule along with tests
 #### Added SupportedLegalEntityValidationRule along with tests
+#### Added SupportedStyleValidationRule along with tests

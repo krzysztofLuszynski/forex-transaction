@@ -53,7 +53,7 @@ public class TransactionValidationControllerIT {
                     "\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
 
     private static final String INVALID_VANILLA_OPTION_TRANSACTION =
-            "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\"," +
+            "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN1\"," +
                     "\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\"," +
                     "\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
                     "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\"," +
@@ -186,7 +186,9 @@ public class TransactionValidationControllerIT {
                 "{\"transactionNumber\":1,\"affectedFields\":[\"expiryDate\",\"deliveryDate\"]," +
                 "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"premiumDate\",\"deliveryDate\"]," +
-                "\"message\":\"Premium date: 2020-08-24, shall be before delivery date: 2020-08-22\"}]}"
+                "\"message\":\"Premium date: 2020-08-24, shall be before delivery date: 2020-08-22\"}," +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"style\"]," +
+                "\"message\":\"Unsupported style: EUROPEAN1, supported values are: [EUROPEAN, AMERICAN]\"}]}"
         );
     }
 }
