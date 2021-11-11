@@ -23,7 +23,7 @@ public class TransactionValidationControllerIT {
     private static final String INVALID_SPOT_TRANSACTION =
             "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"Spot\",\"direction\":\"BUY\"," +
                     "\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
+                    "\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}";
 
     private static final String VALID_FORWARD_TRANSACTION =
             "{\"customer\":\"YODA2\",\"ccyPair\":\"EURUSD\",\"type\":\"Forward\",\"direction\":\"SELL\"," +
@@ -33,7 +33,7 @@ public class TransactionValidationControllerIT {
     private static final String INVALID_FORWARD_TRANSACTION =
             "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"Forward\",\"direction\":\"SELL\"," +
                     "\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
+                    "\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}";
 
     private static final String VALID_VANILLA_OPTION_TRANSACTION_1 =
             "{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\"," +
@@ -58,7 +58,7 @@ public class TransactionValidationControllerIT {
                     "\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
                     "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\"," +
                     "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
-                    "\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
+                    "\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}";
 
     @Autowired
     private MockMvc mvc;
@@ -102,6 +102,8 @@ public class TransactionValidationControllerIT {
         assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"legalEntity\"]," +
+                "\"message\":\"Unsupported legal entity: UBS AG1, supported values are: [UBS AG]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"valueDate\"]," +
                 "\"message\":\"Value date is mandatory\"}]}"
         );
@@ -133,6 +135,8 @@ public class TransactionValidationControllerIT {
         assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"legalEntity\"]," +
+                "\"message\":\"Unsupported legal entity: UBS AG1, supported values are: [UBS AG]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"valueDate\"]," +
                 "\"message\":\"Value date is mandatory\"}]}"
         );
@@ -177,6 +181,8 @@ public class TransactionValidationControllerIT {
         assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"legalEntity\"]," +
+                "\"message\":\"Unsupported legal entity: UBS AG1, supported values are: [UBS AG]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"expiryDate\",\"deliveryDate\"]," +
                 "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"premiumDate\",\"deliveryDate\"]," +

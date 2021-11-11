@@ -4,6 +4,7 @@ import forex.transaction.validation.TransactionValidator;
 import forex.transaction.validation.ValidationRule;
 import forex.transaction.validation.rule.general.SupportedCustomerValidationRule;
 import forex.transaction.validation.rule.general.MandatoryValueDateValidationRule;
+import forex.transaction.validation.rule.general.SupportedLegalEntityValidationRule;
 import forex.transaction.validation.rule.vanillaoption.ExpiryDateBeforeDeliveryDateValidationRule;
 import forex.transaction.validation.rule.vanillaoption.PremiumDateBeforeDeliveryDateValidationRule;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,11 +17,15 @@ import java.util.List;
 
 @Configuration
 public class ValidationConfiguration {
-    private static final ValidationRule SUPPORTED_CUSTOMER_VALIDATION_RULE =
-            new SupportedCustomerValidationRule(List.of("YODA1", "YODA2"));
+    private static final ValidationRule SUPPORTED_CUSTOMER_VALIDATION_RULE
+            = new SupportedCustomerValidationRule(List.of("YODA1", "YODA2"));
+    private static final ValidationRule SUPPORTED_LEGAL_ENTITY_VALIDATION_RULE
+            = new SupportedLegalEntityValidationRule(List.of("UBS AG"));
 
     private static final List<ValidationRule> GENERAL_VALIDATION_RULES =
-            List.of(SUPPORTED_CUSTOMER_VALIDATION_RULE);
+            List.of(
+                    SUPPORTED_CUSTOMER_VALIDATION_RULE,
+                    SUPPORTED_LEGAL_ENTITY_VALIDATION_RULE);
 
 
     @Bean

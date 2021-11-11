@@ -13,9 +13,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SupportedCustomerValidationRuleTest {
-    SupportedCustomerValidationRule supportedCustomerValidationRule = new SupportedCustomerValidationRule(
-            List.of("YODA1", "YODA2")
-    );
+    SupportedCustomerValidationRule supportedCustomerValidationRule
+            = new SupportedCustomerValidationRule(List.of("YODA1", "YODA2"));
 
     @Test
     void validateSupportedYODA1Customer() {
@@ -56,9 +55,8 @@ public class SupportedCustomerValidationRuleTest {
 
     @Test
     void validateCustomerEmptySupportedCustomerList() {
-        SupportedCustomerValidationRule supportedCustomerValidationRuleEmptyList = new SupportedCustomerValidationRule(
-                Collections.emptyList()
-        );
+        SupportedCustomerValidationRule supportedCustomerValidationRuleEmptyList
+                = new SupportedCustomerValidationRule(Collections.emptyList());
 
         Transaction transaction = new Transaction(){};
         transaction.setCustomer("YODA1");
