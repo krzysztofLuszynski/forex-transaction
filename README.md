@@ -100,3 +100,4 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 ### Implementation of more rules and refactorings - 1h
 #### Refactored messages of existing validation rules to be better reusable
 #### Added PremiumDateBeforeDeliveryDateValidationRule along with tests
+#### Added SupportedLegalEntityValidationRule along with tests
