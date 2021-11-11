@@ -15,7 +15,7 @@ import java.time.LocalDate;
         @JsonSubTypes.Type(value = VanillaOptionTransaction.class, name = "VanillaOption")
 })
 @Data
-public class Transaction {
+public abstract class Transaction {
     String customer;
     String ccyPair;
     TransactionDirection direction;
