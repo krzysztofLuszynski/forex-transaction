@@ -10,6 +10,8 @@ import forex.transaction.dto.ValidationErrorDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,18 +34,18 @@ public class TransactionValidationController {
     @Qualifier("vanillaOptionTransactionValidator")
     TransactionValidator vanillaOptionTransactionValidator;
 
-    @PostMapping("/validate")
-    TransactionsValidationResultDTO validate(@RequestBody List<TransactionDTO> transactionDTOs) {
+    @PostMapping(value = "/validate", produces = "application/json")
+    ResponseEntity<TransactionsValidationResultDTO> validate(@RequestBody List<TransactionDTO> transactionDTOs) {
         log.debug("Transactions validation for transactions: {}", transactionDTOs);
 
-        List<ValidationErrorDTO> transactionValidationErrorDTOS = new ArrayList<>();
+        List<ValidationErrorDTO> transactionValidationErrorDTOs = new ArrayList<>();
         long transactionNumber = 0;
         for (TransactionDTO transactionDTO : transactionDTOs) {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
             Set<ConstraintViolation<TransactionDTO>> violations = validator.validate(transactionDTO);
             for (ConstraintViolation<TransactionDTO> violation : violations) {
-                transactionValidationErrorDTOS.add(
+                transactionValidationErrorDTOs.add(
                         new ValidationErrorDTO(
                                 transactionNumber+1,
                                 new LinkedHashSet<>(List.of(violation.getPropertyPath().toString())),
@@ -55,11 +57,18 @@ public class TransactionValidationController {
             TransactionValidator transactionValidator = getTransactionValidatorForTransaction(transactionDTO);
             ValidationContext<? extends TransactionDTO> validationContext = createValidationContext(transactionDTO, transactionNumber+1);
 
-            transactionValidationErrorDTOS.addAll(transactionValidator.validate(validationContext));
+            transactionValidationErrorDTOs.addAll(transactionValidator.validate(validationContext));
             transactionNumber++;
         }
 
-        return new TransactionsValidationResultDTO(transactionNumber, transactionValidationErrorDTOS);
+        TransactionsValidationResultDTO transactionsValidationResultDTO
+                = new TransactionsValidationResultDTO(transactionNumber, transactionValidationErrorDTOs);
+
+        if (transactionValidationErrorDTOs.isEmpty()) {
+            return new ResponseEntity<>(transactionsValidationResultDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(transactionsValidationResultDTO, HttpStatus.BAD_REQUEST);
+        }
     }
 
     private TransactionValidator getTransactionValidatorForTransaction(TransactionDTO transactionDTO) {

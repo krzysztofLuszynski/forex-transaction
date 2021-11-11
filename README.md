@@ -34,14 +34,9 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 ## Solution discussion
 ### Because I have not much time for this task I decided to take following assumptions:
 #### For such endpoint it would be good to validate much more for example date formats, if fields are present or not etc, but because there is nothing such stated in the task I am skipping that
-#### Because full validation would be on the objects DTO, I am not doing that that's why I changed to use domain objects in the request and do not use mapping between DTO and domain objects - in normal application with more time I would go with broader validation of the request like stated in point before
-#### That's why my domain objects contain domain types like LocalDate, BigDecimal etc - DTO would contain raw form of data
-#### Also because of that I decided to return 200 for both cases - means validation passed correct or not and 400 is reserved in my solution only if you pass data which can not be mapped to LocalDate or enum for example
-#### If have more time we can image validate returning 200 in case validation did not return any errors and 400 with complex validation result objects when validation failed - not applying now that solution as described before
+#### Also because of that I decided to return 200 when no validation errors, 400 when there are validation errors
 #### Decided to return number of all transactionDTOS along with list of validation errors
 #### Because transactionDTOS do not have unique id (which in my opinion is bad) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
-#### For SupportedCustomerValidationRule I decide to put in the message all allowed values, cause there are only 2, but in case of many we should think of different approach
-#### With more time we can put separate GET request with validation id with the business description or validation. We can also put such validation id into every error, or put link to GET (HATEOAS approach)
 
 ## TODO
 ### All types of trades:
@@ -102,3 +97,10 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Added PremiumDateBeforeDeliveryDateValidationRule along with tests
 #### Added SupportedLegalEntityValidationRule along with tests
 #### Added SupportedStyleValidationRule along with tests
+
+### Introduced java-beans validations - 1h30m
+#### Added annotations to Transaction object
+#### Removed two general validation rules along with tests
+#### Updated integration tests
+#### Introduced dto object instead of domain objects
+#### Returning 200 or 400 (previously only 200)

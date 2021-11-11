@@ -104,7 +104,7 @@ public class TransactionValidationControllerIT {
                         post("/validate")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("[" + INVALID_SPOT_TRANSACTION + "]"))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
@@ -136,7 +136,7 @@ public class TransactionValidationControllerIT {
                         post("/validate")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("[" + INVALID_FORWARD_TRANSACTION + "]"))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
@@ -182,7 +182,7 @@ public class TransactionValidationControllerIT {
                         post("/validate")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("[" + INVALID_VANILLA_OPTION_TRANSACTION + "]"))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
