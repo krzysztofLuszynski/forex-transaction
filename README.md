@@ -56,7 +56,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 ### Options specific:
 #### the style can be either American or European
 #### American option style will have in addition the excerciseStartDate, which has to be after the trade date but before the expiry date
-#### expiry date and premium date shall be before delivery date
+#### expiry date and premium date shall be before delivery date - DONE
 
 ### Assumptions:
 #### Current date is 09.10.2020 - why do we need this assumption ???
@@ -97,4 +97,6 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Updated integration tests for case with invalid vanilla option transaction
 #### Updated README with case for invalid vanilla option transaction
 
-### Refactored messages of existing validation rules to be better reusable - 15m
+### Implementation of more rules and refactorings - 1h
+#### Refactored messages of existing validation rules to be better reusable
+#### Added PremiumDateBeforeDeliveryDateValidationRule along with tests
