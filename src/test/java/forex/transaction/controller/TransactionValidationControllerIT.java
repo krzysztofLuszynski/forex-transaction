@@ -178,7 +178,7 @@ public class TransactionValidationControllerIT {
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"expiryDate\",\"deliveryDate\"]," +
-                "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22 for vanilla option transaction\"}]}"
+                "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22\"}]}"
         );
     }
 }

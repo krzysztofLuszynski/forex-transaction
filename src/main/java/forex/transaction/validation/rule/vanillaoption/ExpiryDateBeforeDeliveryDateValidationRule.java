@@ -24,7 +24,7 @@ public class ExpiryDateBeforeDeliveryDateValidationRule implements ValidationRul
             ValidationError validationError = new ValidationError(
                     validationContext.getTransactionNumber(),
                     new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
-                    String.format("Expiry date: %s, shall be before delivery date: %s for vanilla option transaction",
+                    String.format("Expiry date: %s, shall be before delivery date: %s",
                             expiryDate, deliveryDate)
             );
 

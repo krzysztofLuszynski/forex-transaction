@@ -73,7 +73,7 @@ public class ExpiryDateBeforeDeliveryDateValidationRuleTest {
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 5L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("expiryDate", "deliveryDate");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
-                "Expiry date: 2021-11-11, shall be before delivery date: 2021-11-11 for vanilla option transaction");
+                "Expiry date: 2021-11-11, shall be before delivery date: 2021-11-11");
     }
 
     @Test
@@ -89,6 +89,6 @@ public class ExpiryDateBeforeDeliveryDateValidationRuleTest {
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 6L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("expiryDate", "deliveryDate");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
-                "Expiry date: 2021-11-12, shall be before delivery date: 2021-11-11 for vanilla option transaction");
+                "Expiry date: 2021-11-12, shall be before delivery date: 2021-11-11");
     }
 }
