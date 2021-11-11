@@ -1,5 +1,5 @@
-# forex-transactions-validation
-Forex transactions validation. Simple REST service with validations.
+# forex-transaction
+Forex transaction. Simple REST service with transaction validations.
 
 Application for coding task.
 
