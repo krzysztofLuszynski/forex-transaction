@@ -1,4 +1,4 @@
-package forex.transaction.domain.vanilla.option;
+package forex.transaction.domain.vanillaoption;
 
 public enum VanillaOptionStyle {
     EUROPEAN,

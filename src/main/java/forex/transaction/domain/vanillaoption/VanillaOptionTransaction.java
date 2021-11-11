@@ -1,4 +1,4 @@
-package forex.transaction.domain.vanilla.option;
+package forex.transaction.domain.vanillaoption;
 
 import forex.transaction.domain.Transaction;
 import lombok.Data;

@@ -2,7 +2,7 @@ package forex.transaction.domain;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import forex.transaction.domain.vanilla.option.VanillaOptionTransaction;
+import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
 import lombok.Data;
 
 import java.math.BigDecimal;

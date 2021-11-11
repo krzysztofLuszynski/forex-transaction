@@ -52,6 +52,14 @@ public class TransactionValidationControllerIT {
                     "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
                     "\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
 
+    private static final String INVALID_VANILLA_OPTION_TRANSACTION =
+            "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\"," +
+                    "\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\"," +
+                    "\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
+                    "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\"," +
+                    "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
+                    "\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
+
     @Autowired
     private MockMvc mvc;
 
@@ -154,5 +162,23 @@ public class TransactionValidationControllerIT {
 
         String errorMessage = result.getResponse().getContentAsString();
         assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[]}");
+    }
+
+    @Test
+    void validateOneVanillaOptionInvalidTransaction() throws Exception {
+        MvcResult result = mvc.perform(
+                        post("/validate")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("[" + INVALID_VANILLA_OPTION_TRANSACTION + "]"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String errorMessage = result.getResponse().getContentAsString();
+        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
+                "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"expiryDate\",\"deliveryDate\"]," +
+                "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22 for vanilla option transaction\"}]}"
+        );
     }
 }

@@ -4,6 +4,7 @@ import forex.transaction.validation.TransactionValidator;
 import forex.transaction.validation.ValidationRule;
 import forex.transaction.validation.rule.general.SupportedCustomerValidationRule;
 import forex.transaction.validation.rule.general.MandatoryValueDateValidationRule;
+import forex.transaction.validation.rule.vanillaoption.ExpiryDateBeforeDeliveryDateValidationRule;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,12 +28,9 @@ public class ValidationConfiguration {
     @Bean
     @Qualifier("spotTransactionValidator")
     TransactionValidator getSpotTransactionValidator() {
-        MandatoryValueDateValidationRule mandatoryValueDateValidationRule = new MandatoryValueDateValidationRule(
-                SPOT_TRANSACTION_TYPE_LABEL);
-
         List<ValidationRule> validationRules = new ArrayList<>(GENERAL_VALIDATION_RULES);
         validationRules.addAll(
-                List.of(mandatoryValueDateValidationRule)
+                List.of(new MandatoryValueDateValidationRule(SPOT_TRANSACTION_TYPE_LABEL))
         );
 
         return new TransactionValidator(Collections.unmodifiableList(validationRules));
@@ -41,12 +39,21 @@ public class ValidationConfiguration {
     @Bean
     @Qualifier("forwardTransactionValidator")
     TransactionValidator getForwardTransactionValidator() {
-        MandatoryValueDateValidationRule mandatoryValueDateValidationRule = new MandatoryValueDateValidationRule(
-                FORWARD_TRANSACTION_TYPE_LABEL);
-
         List<ValidationRule> validationRules = new ArrayList<>(GENERAL_VALIDATION_RULES);
         validationRules.addAll(
-                List.of(mandatoryValueDateValidationRule)
+                List.of(new MandatoryValueDateValidationRule(FORWARD_TRANSACTION_TYPE_LABEL))
+        );
+
+        return new TransactionValidator(Collections.unmodifiableList(validationRules));
+    }
+
+    @Bean
+    @Qualifier("vanillaOptionTransactionValidator")
+    TransactionValidator getVanillaOptionTransactionValidator() {
+        List<ValidationRule> validationRules = new ArrayList<>(GENERAL_VALIDATION_RULES);
+
+        validationRules.addAll(
+                List.of(new ExpiryDateBeforeDeliveryDateValidationRule())
         );
 
         return new TransactionValidator(Collections.unmodifiableList(validationRules));

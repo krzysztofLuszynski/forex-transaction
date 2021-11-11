@@ -4,7 +4,7 @@ import forex.transaction.domain.ForwardTransaction;
 import forex.transaction.domain.SpotTransaction;
 import forex.transaction.domain.Transaction;
 import forex.transaction.domain.TransactionsValidationResult;
-import forex.transaction.domain.vanilla.option.VanillaOptionTransaction;
+import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
 import forex.transaction.validation.TransactionValidator;
 import forex.transaction.validation.ValidationContext;
 import forex.transaction.validation.ValidationError;
@@ -30,6 +30,10 @@ public class TransactionValidationController {
     @Qualifier("forwardTransactionValidator")
     TransactionValidator forwardTransactionValidator;
 
+    @Autowired
+    @Qualifier("vanillaOptionTransactionValidator")
+    TransactionValidator vanillaOptionTransactionValidator;
+
     @PostMapping("/validate")
     TransactionsValidationResult validate(@RequestBody List<Transaction> transactions) {
         log.debug("Transactions validation for transactions: {}", transactions);
@@ -52,7 +56,10 @@ public class TransactionValidationController {
             return spotTransactionValidator;
         } else if(transaction instanceof ForwardTransaction) {
             return forwardTransactionValidator;
-        } else{
+        } else if (transaction instanceof VanillaOptionTransaction) {
+            return vanillaOptionTransactionValidator;
+        }
+        else {
             return new TransactionValidator(Collections.emptyList());
         }
     }
