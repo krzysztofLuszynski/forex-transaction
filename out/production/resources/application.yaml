@@ -1,0 +1,6 @@
+server:
+  servlet:
+    context-path: /forex-transaction
+logging:
+  level:
+    forex.transaction: DEBUG
