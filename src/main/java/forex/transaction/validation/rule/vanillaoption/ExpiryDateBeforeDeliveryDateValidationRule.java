@@ -1,9 +1,9 @@
 package forex.transaction.validation.rule.vanillaoption;
 
-import forex.transaction.domain.Transaction;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.ValidationRule;
 
 import java.time.LocalDate;
@@ -13,22 +13,22 @@ import java.util.Optional;
 
 public class ExpiryDateBeforeDeliveryDateValidationRule implements ValidationRule {
     @Override
-    public Optional<ValidationError> validate(ValidationContext<? extends Transaction> validationContext) {
-        VanillaOptionTransaction vanillaOptionTransaction = (VanillaOptionTransaction) validationContext.getTransaction();
+    public Optional<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext) {
+        VanillaOptionTransactionDTO vanillaOptionTransaction = (VanillaOptionTransactionDTO) validationContext.getTransaction();
 
         LocalDate expiryDate = vanillaOptionTransaction.getExpiryDate();
         LocalDate deliveryDate = vanillaOptionTransaction.getDeliveryDate();
 
         // these null checks should be done before, see solution discussion in README.md
         if (expiryDate != null && deliveryDate != null && !expiryDate.isBefore(deliveryDate)) {
-            ValidationError validationError = new ValidationError(
+            ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO(
                     validationContext.getTransactionNumber(),
                     new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
                     String.format("Expiry date: %s, shall be before delivery date: %s",
                             expiryDate, deliveryDate)
             );
 
-            return Optional.of(validationError);
+            return Optional.of(validationErrorDTO);
         }
 
         return Optional.empty();

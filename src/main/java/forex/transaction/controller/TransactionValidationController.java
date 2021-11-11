@@ -1,13 +1,12 @@
 package forex.transaction.controller;
 
-import forex.transaction.domain.ForwardTransaction;
-import forex.transaction.domain.SpotTransaction;
-import forex.transaction.domain.Transaction;
-import forex.transaction.domain.TransactionsValidationResult;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.*;
+import forex.transaction.dto.SpotTransactionDTODTO;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.TransactionValidator;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,18 +33,18 @@ public class TransactionValidationController {
     TransactionValidator vanillaOptionTransactionValidator;
 
     @PostMapping("/validate")
-    TransactionsValidationResult validate(@RequestBody List<Transaction> transactions) {
-        log.debug("Transactions validation for transactions: {}", transactions);
+    TransactionsValidationResultDTO validate(@RequestBody List<TransactionDTO> transactionDTOs) {
+        log.debug("Transactions validation for transactions: {}", transactionDTOs);
 
-        List<ValidationError> transactionValidationErrors = new ArrayList<>();
+        List<ValidationErrorDTO> transactionValidationErrorDTOS = new ArrayList<>();
         long transactionNumber = 0;
-        for (Transaction transaction: transactions) {
+        for (TransactionDTO transactionDTO : transactionDTOs) {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
-            Set<ConstraintViolation<Transaction>> violations = validator.validate(transaction);
-            for (ConstraintViolation<Transaction> violation : violations) {
-                transactionValidationErrors.add(
-                        new ValidationError(
+            Set<ConstraintViolation<TransactionDTO>> violations = validator.validate(transactionDTO);
+            for (ConstraintViolation<TransactionDTO> violation : violations) {
+                transactionValidationErrorDTOS.add(
+                        new ValidationErrorDTO(
                                 transactionNumber+1,
                                 new LinkedHashSet<>(List.of(violation.getPropertyPath().toString())),
                                 violation.getMessageTemplate()
@@ -53,22 +52,22 @@ public class TransactionValidationController {
                 );
             }
 
-            TransactionValidator transactionValidator = getTransactionValidatorForTransaction(transaction);
-            ValidationContext<? extends Transaction> validationContext = createValidationContext(transaction, transactionNumber+1);
+            TransactionValidator transactionValidator = getTransactionValidatorForTransaction(transactionDTO);
+            ValidationContext<? extends TransactionDTO> validationContext = createValidationContext(transactionDTO, transactionNumber+1);
 
-            transactionValidationErrors.addAll(transactionValidator.validate(validationContext));
+            transactionValidationErrorDTOS.addAll(transactionValidator.validate(validationContext));
             transactionNumber++;
         }
 
-        return new TransactionsValidationResult(transactionNumber, transactionValidationErrors);
+        return new TransactionsValidationResultDTO(transactionNumber, transactionValidationErrorDTOS);
     }
 
-    private TransactionValidator getTransactionValidatorForTransaction(Transaction transaction) {
-        if (transaction instanceof SpotTransaction) {
+    private TransactionValidator getTransactionValidatorForTransaction(TransactionDTO transactionDTO) {
+        if (transactionDTO instanceof SpotTransactionDTODTO) {
             return spotTransactionValidator;
-        } else if(transaction instanceof ForwardTransaction) {
+        } else if(transactionDTO instanceof ForwardTransactionDTODTO) {
             return forwardTransactionValidator;
-        } else if (transaction instanceof VanillaOptionTransaction) {
+        } else if (transactionDTO instanceof VanillaOptionTransactionDTO) {
             return vanillaOptionTransactionValidator;
         }
         else {
@@ -76,16 +75,16 @@ public class TransactionValidationController {
         }
     }
 
-    private ValidationContext<? extends Transaction> createValidationContext(Transaction transaction, Long transactionNumber) {
-        ValidationContext<? extends Transaction> validationContext;
-        if (transaction instanceof SpotTransaction) {
-            validationContext = new ValidationContext<>((SpotTransaction) transaction, transactionNumber);
-        } else if (transaction instanceof ForwardTransaction) {
-            validationContext = new ValidationContext<>((ForwardTransaction) transaction, transactionNumber);
-        } else if (transaction instanceof VanillaOptionTransaction) {
-            validationContext = new ValidationContext<>((VanillaOptionTransaction) transaction, transactionNumber);
+    private ValidationContext<? extends TransactionDTO> createValidationContext(TransactionDTO transactionDTO, Long transactionNumber) {
+        ValidationContext<? extends TransactionDTO> validationContext;
+        if (transactionDTO instanceof SpotTransactionDTODTO) {
+            validationContext = new ValidationContext<>((SpotTransactionDTODTO) transactionDTO, transactionNumber);
+        } else if (transactionDTO instanceof ForwardTransactionDTODTO) {
+            validationContext = new ValidationContext<>((ForwardTransactionDTODTO) transactionDTO, transactionNumber);
+        } else if (transactionDTO instanceof VanillaOptionTransactionDTO) {
+            validationContext = new ValidationContext<>((VanillaOptionTransactionDTO) transactionDTO, transactionNumber);
         } else {
-            validationContext = new ValidationContext<>(transaction, transactionNumber);
+            validationContext = new ValidationContext<>(transactionDTO, transactionNumber);
         }
 
         return validationContext;

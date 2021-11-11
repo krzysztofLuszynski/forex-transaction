@@ -1,6 +1,6 @@
-package forex.transaction.domain.vanillaoption;
+package forex.transaction.dto.vanillaoption;
 
-import forex.transaction.domain.Transaction;
+import forex.transaction.dto.TransactionDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
-public class VanillaOptionTransaction extends Transaction {
+public class VanillaOptionTransactionDTO extends TransactionDTO {
     String style;
     VanillaOptionStrategy strategy;
     LocalDate deliveryDate;

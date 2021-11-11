@@ -1,9 +1,9 @@
 package forex.transaction.validation.rule.vanillaoption;
 
-import forex.transaction.domain.Transaction;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.ValidationRule;
 
 import java.util.LinkedHashSet;
@@ -19,18 +19,18 @@ public class SupportedStyleValidationRule implements ValidationRule {
     }
 
     @Override
-    public Optional<ValidationError> validate(ValidationContext<? extends Transaction> validationContext) {
-        VanillaOptionTransaction vanillaOptionTransaction = (VanillaOptionTransaction) validationContext.getTransaction();
+    public Optional<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext) {
+        VanillaOptionTransactionDTO vanillaOptionTransaction = (VanillaOptionTransactionDTO) validationContext.getTransaction();
 
         if (!supportedStyles.contains(vanillaOptionTransaction.getStyle())) {
-            ValidationError validationError = new ValidationError(
+            ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO(
                     validationContext.getTransactionNumber(),
                     Set.of("style"),
                     String.format("Unsupported style: %s, supported values are: %s",
                             vanillaOptionTransaction.getStyle(), supportedStyles)
             );
 
-            return Optional.of(validationError);
+            return Optional.of(validationErrorDTO);
         }
 
         return Optional.empty();

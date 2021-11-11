@@ -1,9 +1,9 @@
 package forex.transaction.rule.vanillaoption;
 
-import forex.transaction.domain.Transaction;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.rule.vanillaoption.SupportedStyleValidationRule;
 import org.junit.jupiter.api.Test;
 
@@ -19,10 +19,10 @@ public class SupportedStyleValidationRuleTest {
 
     @Test
     void validateNullStyle() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 1L);
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 1L);
 
-        Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = supportedLegalEntityValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 1L);
@@ -33,33 +33,33 @@ public class SupportedStyleValidationRuleTest {
 
     @Test
     void validateSupportedEUROPEANStyle() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setStyle("EUROPEAN");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 2L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 2L);
 
-        Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = supportedLegalEntityValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateSupportedAMERICANStyle() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setStyle("AMERICAN");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 3L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 3L);
 
-        Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = supportedLegalEntityValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateUnsupportedeuropeanStyle() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setStyle("european");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 4L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 4L);
 
-        Optional<ValidationError> validationError = supportedLegalEntityValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = supportedLegalEntityValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 4L);
@@ -73,11 +73,11 @@ public class SupportedStyleValidationRuleTest {
         SupportedStyleValidationRule supportedStyleValidationRuleEmptyList
                 = new SupportedStyleValidationRule(Collections.emptyList());
 
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setStyle("EUROPEAN");
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 5L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 5L);
 
-        Optional<ValidationError> validationError = supportedStyleValidationRuleEmptyList.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = supportedStyleValidationRuleEmptyList.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 5L);

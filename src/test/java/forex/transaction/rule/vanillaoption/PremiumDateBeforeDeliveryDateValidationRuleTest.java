@@ -1,9 +1,9 @@
 package forex.transaction.rule.vanillaoption;
 
-import forex.transaction.domain.Transaction;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.rule.vanillaoption.PremiumDateBeforeDeliveryDateValidationRule;
 import org.junit.jupiter.api.Test;
 
@@ -18,56 +18,56 @@ public class PremiumDateBeforeDeliveryDateValidationRuleTest {
 
     @Test
     void validatePremiumDateNullDeliveryDateNull() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 1L);
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 1L);
 
-        Optional<ValidationError> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validatePremiumDateNotNullDeliveryDateNull() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setPremiumDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 2L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 2L);
 
-        Optional<ValidationError> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validatePremiumDateNullDeliveryDateNotNull() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 3L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 3L);
 
-        Optional<ValidationError> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validatePremiumDateBeforeDeliveryDate() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setPremiumDate(LocalDate.parse("2021-11-10"));
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 4L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 4L);
 
-        Optional<ValidationError> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validatePremiumDateEqualDeliveryDate() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setPremiumDate(LocalDate.parse("2021-11-11"));
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 5L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 5L);
 
-        Optional<ValidationError> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 5L);
@@ -78,12 +78,12 @@ public class PremiumDateBeforeDeliveryDateValidationRuleTest {
 
     @Test
     void validatePremiumDateAfterDeliveryDate() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setPremiumDate(LocalDate.parse("2021-11-12"));
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 6L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 6L);
 
-        Optional<ValidationError> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = premiumDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 6L);

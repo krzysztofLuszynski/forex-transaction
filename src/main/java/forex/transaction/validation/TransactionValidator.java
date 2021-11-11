@@ -1,6 +1,7 @@
 package forex.transaction.validation;
 
-import forex.transaction.domain.Transaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.ValidationErrorDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,13 @@ public class TransactionValidator {
         this.validationRules = validationRules;
     }
 
-    public List<ValidationError> validate(ValidationContext<? extends Transaction> validationContext) {
-        List<ValidationError> validationErrors = new ArrayList<>();
+    public List<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext) {
+        List<ValidationErrorDTO> validationErrorDTOS = new ArrayList<>();
         for (ValidationRule validationRule : validationRules) {
-            Optional<ValidationError> validationError = validationRule.validate(validationContext);
-            validationError.ifPresent(validationErrors::add);
+            Optional<ValidationErrorDTO> validationError = validationRule.validate(validationContext);
+            validationError.ifPresent(validationErrorDTOS::add);
         }
 
-        return validationErrors;
+        return validationErrorDTOS;
     }
 }

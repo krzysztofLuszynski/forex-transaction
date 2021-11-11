@@ -1,9 +1,10 @@
 package forex.transaction.validation;
 
-import forex.transaction.domain.Transaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.ValidationErrorDTO;
 
 import java.util.Optional;
 
 public interface ValidationRule {
-    Optional<ValidationError> validate(ValidationContext<? extends Transaction> validationContext);
+    Optional<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext);
 }

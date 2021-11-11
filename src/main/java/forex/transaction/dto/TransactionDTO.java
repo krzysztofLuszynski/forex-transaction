@@ -1,8 +1,8 @@
-package forex.transaction.domain;
+package forex.transaction.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,12 +13,12 @@ import java.time.LocalDate;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = SpotTransaction.class, name = "Spot"),
-        @JsonSubTypes.Type(value = ForwardTransaction.class, name = "Forward"),
-        @JsonSubTypes.Type(value = VanillaOptionTransaction.class, name = "VanillaOption")
+        @JsonSubTypes.Type(value = SpotTransactionDTODTO.class, name = "Spot"),
+        @JsonSubTypes.Type(value = ForwardTransactionDTODTO.class, name = "Forward"),
+        @JsonSubTypes.Type(value = VanillaOptionTransactionDTO.class, name = "VanillaOption")
 })
 @Data
-public abstract class Transaction {
+public abstract class TransactionDTO {
     @Pattern(regexp = "YODA1|YODA2", message = "Customer can be only YODA1 or YODA2")
     String customer;
 

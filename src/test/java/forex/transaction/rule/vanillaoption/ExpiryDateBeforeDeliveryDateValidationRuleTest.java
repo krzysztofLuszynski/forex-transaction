@@ -1,9 +1,9 @@
 package forex.transaction.rule.vanillaoption;
 
-import forex.transaction.domain.Transaction;
-import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
+import forex.transaction.dto.TransactionDTO;
+import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.rule.vanillaoption.ExpiryDateBeforeDeliveryDateValidationRule;
 import org.junit.jupiter.api.Test;
 
@@ -18,56 +18,56 @@ public class ExpiryDateBeforeDeliveryDateValidationRuleTest {
 
     @Test
     void validateExpiryDateNullDeliveryDateNull() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 1L);
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 1L);
 
-        Optional<ValidationError> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateExpiryDateNotNullDeliveryDateNull() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setExpiryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 2L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 2L);
 
-        Optional<ValidationError> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateExpiryDateNullDeliveryDateNotNull() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 3L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 3L);
 
-        Optional<ValidationError> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateExpiryDateBeforeDeliveryDate() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setExpiryDate(LocalDate.parse("2021-11-10"));
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 4L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 4L);
 
-        Optional<ValidationError> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateExpiryDateEqualDeliveryDate() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setExpiryDate(LocalDate.parse("2021-11-11"));
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 5L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 5L);
 
-        Optional<ValidationError> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 5L);
@@ -78,12 +78,12 @@ public class ExpiryDateBeforeDeliveryDateValidationRuleTest {
 
     @Test
     void validateExpiryDateAfterDeliveryDate() {
-        VanillaOptionTransaction vanillaOptionTransaction = new VanillaOptionTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = new VanillaOptionTransactionDTO();
         vanillaOptionTransaction.setExpiryDate(LocalDate.parse("2021-11-12"));
         vanillaOptionTransaction.setDeliveryDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(vanillaOptionTransaction, 6L);
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(vanillaOptionTransaction, 6L);
 
-        Optional<ValidationError> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = expiryDateBeforeDeliveryDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 6L);

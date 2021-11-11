@@ -1,8 +1,8 @@
 package forex.transaction.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import forex.transaction.domain.TransactionsValidationResult;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.TransactionsValidationResultDTO;
+import forex.transaction.dto.ValidationErrorDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -79,9 +79,9 @@ public class TransactionValidationControllerIT {
                     .andExpect(status().isOk())
                     .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(0);
-        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(0);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
     @Test
@@ -93,9 +93,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
     @Test
@@ -107,12 +107,12 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).containsExactlyInAnyOrder(
-                new ValidationError(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
-                new ValidationError(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationError(1L, Set.of("valueDate"), "Value date is mandatory")
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
+                new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date is mandatory")
                 );
     }
 
@@ -125,9 +125,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
     @Test
@@ -139,12 +139,12 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).containsExactlyInAnyOrder(
-                new ValidationError(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
-                new ValidationError(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationError(1L, Set.of("valueDate"), "Value date is mandatory")
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
+                new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date is mandatory")
         );
     }
 
@@ -157,9 +157,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
     @Test
@@ -171,9 +171,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
     @Test
@@ -185,24 +185,24 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResult.getValidationErrors()).containsExactlyInAnyOrder(
-                new ValidationError(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
-                new ValidationError(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationError(1L, new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
+        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
+                new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
+                new ValidationErrorDTO(1L, new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
                         "Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22"),
-                new ValidationError(1L, new LinkedHashSet<>(List.of("premiumDate", "deliveryDate")),
+                new ValidationErrorDTO(1L, new LinkedHashSet<>(List.of("premiumDate", "deliveryDate")),
                         "Premium date: 2020-08-24, shall be before delivery date: 2020-08-22"),
-                new ValidationError(1L, Set.of("style"),
+                new ValidationErrorDTO(1L, Set.of("style"),
                         "Unsupported style: EUROPEAN1, supported values are: [EUROPEAN, AMERICAN]")
         );
     }
 
-    private TransactionsValidationResult getTransactionsValidationResult(MvcResult result) throws Exception {
+    private TransactionsValidationResultDTO getTransactionsValidationResult(MvcResult result) throws Exception {
         String errorMessage = result.getResponse().getContentAsString();
 
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(errorMessage, TransactionsValidationResult.class);
+        return mapper.readValue(errorMessage, TransactionsValidationResultDTO.class);
     }
 }

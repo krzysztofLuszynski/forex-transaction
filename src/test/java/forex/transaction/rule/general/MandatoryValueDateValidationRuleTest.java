@@ -1,9 +1,9 @@
 package forex.transaction.rule.general;
 
-import forex.transaction.domain.SpotTransaction;
-import forex.transaction.domain.Transaction;
+import forex.transaction.dto.SpotTransactionDTODTO;
+import forex.transaction.dto.TransactionDTO;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.validation.ValidationError;
+import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.rule.general.MandatoryValueDateValidationRule;
 import org.junit.jupiter.api.Test;
 
@@ -17,21 +17,21 @@ public class MandatoryValueDateValidationRuleTest {
 
     @Test
     void validateValueDatePresent() {
-        SpotTransaction spotTransaction = new SpotTransaction();
-        spotTransaction.setValueDate(LocalDate.parse("2021-11-11"));
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(spotTransaction, 1L);
+        SpotTransactionDTODTO spotTransactionDTO = new SpotTransactionDTODTO();
+        spotTransactionDTO.setValueDate(LocalDate.parse("2021-11-11"));
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(spotTransactionDTO, 1L);
 
-        Optional<ValidationError> validationError = mandatoryValueDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = mandatoryValueDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isEmpty();
     }
 
     @Test
     void validateValueDateMissing() {
-        SpotTransaction spotTransaction = new SpotTransaction();
-        ValidationContext<Transaction> validationContext = new ValidationContext<>(spotTransaction, 2L);
+        SpotTransactionDTODTO spotTransactionDTO = new SpotTransactionDTODTO();
+        ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(spotTransactionDTO, 2L);
 
-        Optional<ValidationError> validationError = mandatoryValueDateValidationRule.validate(validationContext);
+        Optional<ValidationErrorDTO> validationError = mandatoryValueDateValidationRule.validate(validationContext);
 
         assertThat(validationError).isNotEmpty();
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 2L);

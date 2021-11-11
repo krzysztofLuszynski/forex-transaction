@@ -1,4 +1,4 @@
-package forex.transaction.domain;
+package forex.transaction.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,6 +9,6 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
-public class AbstractSpotForwardTransaction extends Transaction {
+public class ForwardTransactionDTODTO extends AbstractSpotForwardTransactionDTO {
     LocalDate valueDate;
 }

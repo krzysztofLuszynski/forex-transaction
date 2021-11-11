@@ -1,10 +1,10 @@
 package forex.transaction.validation;
 
-import forex.transaction.domain.Transaction;
+import forex.transaction.dto.TransactionDTO;
 import lombok.Value;
 
 @Value
-public class ValidationContext<T extends Transaction> {
+public class ValidationContext<T extends TransactionDTO> {
     T transaction;
     Long transactionNumber;
 }
