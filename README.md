@@ -104,3 +104,5 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Updated integration tests
 #### Introduced dto object instead of domain objects
 #### Returning 200 or 400 (previously only 200)
+#### Added annotation to AbstractSpotForwardTransaction object
+#### Removed general rule for valueDate along with tests

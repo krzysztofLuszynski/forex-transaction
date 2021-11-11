@@ -1,12 +1,8 @@
 package forex.transaction.controller;
 
 import forex.transaction.dto.*;
-import forex.transaction.dto.SpotTransactionDTO;
-import forex.transaction.dto.TransactionDTO;
-import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.TransactionValidator;
 import forex.transaction.validation.ValidationContext;
-import forex.transaction.dto.ValidationErrorDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,20 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.*;
 
 @Slf4j
 @RestController
 public class TransactionValidationController {
-    @Autowired
-    @Qualifier("spotTransactionValidator")
-    TransactionValidator spotTransactionValidator;
-
-    @Autowired
-    @Qualifier("forwardTransactionValidator")
-    TransactionValidator forwardTransactionValidator;
-
     @Autowired
     @Qualifier("vanillaOptionTransactionValidator")
     TransactionValidator vanillaOptionTransactionValidator;
@@ -72,14 +63,9 @@ public class TransactionValidationController {
     }
 
     private TransactionValidator getTransactionValidatorForTransaction(TransactionDTO transactionDTO) {
-        if (transactionDTO instanceof SpotTransactionDTO) {
-            return spotTransactionValidator;
-        } else if(transactionDTO instanceof ForwardTransactionDTO) {
-            return forwardTransactionValidator;
-        } else if (transactionDTO instanceof VanillaOptionTransactionDTO) {
+        if (transactionDTO instanceof VanillaOptionTransactionDTO) {
             return vanillaOptionTransactionValidator;
-        }
-        else {
+        } else {
             return new TransactionValidator(Collections.emptyList());
         }
     }

@@ -2,7 +2,6 @@ package forex.transaction.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

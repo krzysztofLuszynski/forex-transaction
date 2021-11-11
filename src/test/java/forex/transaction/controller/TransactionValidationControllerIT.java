@@ -112,7 +112,7 @@ public class TransactionValidationControllerIT {
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date is mandatory")
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be null")
                 );
     }
 
@@ -144,7 +144,7 @@ public class TransactionValidationControllerIT {
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date is mandatory")
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be null")
         );
     }
 

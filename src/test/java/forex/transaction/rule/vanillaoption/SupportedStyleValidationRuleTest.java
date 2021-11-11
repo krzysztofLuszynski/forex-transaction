@@ -1,7 +1,7 @@
 package forex.transaction.rule.vanillaoption;
 
 import forex.transaction.dto.TransactionDTO;
-import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
+import forex.transaction.dto.VanillaOptionTransactionDTO;
 import forex.transaction.validation.ValidationContext;
 import forex.transaction.dto.ValidationErrorDTO;
 import forex.transaction.validation.rule.vanillaoption.SupportedStyleValidationRule;

@@ -1,4 +1,4 @@
-package forex.transaction.dto.vanillaoption;
+package forex.transaction.dto;
 
 import forex.transaction.dto.TransactionDTO;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @ToString(callSuper = true)
 public class VanillaOptionTransactionDTO extends TransactionDTO {
     String style;
-    VanillaOptionStrategy strategy;
+    String strategy;
     LocalDate deliveryDate;
     LocalDate expiryDate;
     LocalDate excerciseStartDate;
