@@ -13,8 +13,8 @@ import java.time.LocalDate;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = SpotTransactionDTODTO.class, name = "Spot"),
-        @JsonSubTypes.Type(value = ForwardTransactionDTODTO.class, name = "Forward"),
+        @JsonSubTypes.Type(value = SpotTransactionDTO.class, name = "Spot"),
+        @JsonSubTypes.Type(value = ForwardTransactionDTO.class, name = "Forward"),
         @JsonSubTypes.Type(value = VanillaOptionTransactionDTO.class, name = "VanillaOption")
 })
 @Data

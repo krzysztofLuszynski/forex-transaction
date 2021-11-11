@@ -1,7 +1,7 @@
 package forex.transaction.controller;
 
 import forex.transaction.dto.*;
-import forex.transaction.dto.SpotTransactionDTODTO;
+import forex.transaction.dto.SpotTransactionDTO;
 import forex.transaction.dto.TransactionDTO;
 import forex.transaction.dto.vanillaoption.VanillaOptionTransactionDTO;
 import forex.transaction.validation.TransactionValidator;
@@ -72,9 +72,9 @@ public class TransactionValidationController {
     }
 
     private TransactionValidator getTransactionValidatorForTransaction(TransactionDTO transactionDTO) {
-        if (transactionDTO instanceof SpotTransactionDTODTO) {
+        if (transactionDTO instanceof SpotTransactionDTO) {
             return spotTransactionValidator;
-        } else if(transactionDTO instanceof ForwardTransactionDTODTO) {
+        } else if(transactionDTO instanceof ForwardTransactionDTO) {
             return forwardTransactionValidator;
         } else if (transactionDTO instanceof VanillaOptionTransactionDTO) {
             return vanillaOptionTransactionValidator;
@@ -86,10 +86,10 @@ public class TransactionValidationController {
 
     private ValidationContext<? extends TransactionDTO> createValidationContext(TransactionDTO transactionDTO, Long transactionNumber) {
         ValidationContext<? extends TransactionDTO> validationContext;
-        if (transactionDTO instanceof SpotTransactionDTODTO) {
-            validationContext = new ValidationContext<>((SpotTransactionDTODTO) transactionDTO, transactionNumber);
-        } else if (transactionDTO instanceof ForwardTransactionDTODTO) {
-            validationContext = new ValidationContext<>((ForwardTransactionDTODTO) transactionDTO, transactionNumber);
+        if (transactionDTO instanceof SpotTransactionDTO) {
+            validationContext = new ValidationContext<>((SpotTransactionDTO) transactionDTO, transactionNumber);
+        } else if (transactionDTO instanceof ForwardTransactionDTO) {
+            validationContext = new ValidationContext<>((ForwardTransactionDTO) transactionDTO, transactionNumber);
         } else if (transactionDTO instanceof VanillaOptionTransactionDTO) {
             validationContext = new ValidationContext<>((VanillaOptionTransactionDTO) transactionDTO, transactionNumber);
         } else {

@@ -1,6 +1,6 @@
 package forex.transaction.rule.general;
 
-import forex.transaction.dto.SpotTransactionDTODTO;
+import forex.transaction.dto.SpotTransactionDTO;
 import forex.transaction.dto.TransactionDTO;
 import forex.transaction.validation.ValidationContext;
 import forex.transaction.dto.ValidationErrorDTO;
@@ -17,7 +17,7 @@ public class MandatoryValueDateValidationRuleTest {
 
     @Test
     void validateValueDatePresent() {
-        SpotTransactionDTODTO spotTransactionDTO = new SpotTransactionDTODTO();
+        SpotTransactionDTO spotTransactionDTO = new SpotTransactionDTO();
         spotTransactionDTO.setValueDate(LocalDate.parse("2021-11-11"));
         ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(spotTransactionDTO, 1L);
 
@@ -28,7 +28,7 @@ public class MandatoryValueDateValidationRuleTest {
 
     @Test
     void validateValueDateMissing() {
-        SpotTransactionDTODTO spotTransactionDTO = new SpotTransactionDTODTO();
+        SpotTransactionDTO spotTransactionDTO = new SpotTransactionDTO();
         ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(spotTransactionDTO, 2L);
 
         Optional<ValidationErrorDTO> validationError = mandatoryValueDateValidationRule.validate(validationContext);
