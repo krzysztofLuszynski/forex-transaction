@@ -10,12 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public class MandatoryValueDateValidationRule implements ValidationRule {
-    private final String transactionType;
-
-    public MandatoryValueDateValidationRule(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
     @Override
     public Optional<ValidationError> validate(ValidationContext<? extends Transaction> validationContext) {
         AbstractSpotForwardTransaction abstractSpotForwardTransaction = (AbstractSpotForwardTransaction) validationContext.getTransaction();
@@ -24,7 +18,7 @@ public class MandatoryValueDateValidationRule implements ValidationRule {
             ValidationError validationError = new ValidationError(
                     validationContext.getTransactionNumber(),
                     Set.of("valueDate"),
-                    String.format("Value date is mandatory for %s transaction", transactionType)
+                    "Value date is mandatory"
             );
 
             return Optional.of(validationError);

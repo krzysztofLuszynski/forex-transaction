@@ -103,7 +103,7 @@ public class TransactionValidationControllerIT {
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"valueDate\"]," +
-                "\"message\":\"Value date is mandatory for spot transaction\"}]}"
+                "\"message\":\"Value date is mandatory\"}]}"
         );
     }
 
@@ -134,7 +134,7 @@ public class TransactionValidationControllerIT {
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"valueDate\"]," +
-                "\"message\":\"Value date is mandatory for forward transaction\"}]}"
+                "\"message\":\"Value date is mandatory\"}]}"
         );
     }
 

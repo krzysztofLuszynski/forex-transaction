@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MandatoryValueDateValidationRuleTest {
-    MandatoryValueDateValidationRule mandatoryValueDateValidationRule = new MandatoryValueDateValidationRule("spot");
+    MandatoryValueDateValidationRule mandatoryValueDateValidationRule = new MandatoryValueDateValidationRule();
 
     @Test
     void validateValueDatePresent() {
@@ -37,6 +37,6 @@ public class MandatoryValueDateValidationRuleTest {
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("transactionNumber", 2L);
         assertThat(validationError.get().getAffectedFields()).containsExactly("valueDate");
         assertThat(validationError.get()).hasFieldOrPropertyWithValue("message",
-                "Value date is mandatory for spot transaction");
+                "Value date is mandatory");
     }
 }

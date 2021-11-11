@@ -15,9 +15,6 @@ import java.util.List;
 
 @Configuration
 public class ValidationConfiguration {
-    private static final String SPOT_TRANSACTION_TYPE_LABEL = "spot";
-    private static final String FORWARD_TRANSACTION_TYPE_LABEL = "forward";
-
     private static final ValidationRule SUPPORTED_CUSTOMER_VALIDATION_RULE =
             new SupportedCustomerValidationRule(List.of("YODA1", "YODA2"));
 
@@ -30,7 +27,7 @@ public class ValidationConfiguration {
     TransactionValidator getSpotTransactionValidator() {
         List<ValidationRule> validationRules = new ArrayList<>(GENERAL_VALIDATION_RULES);
         validationRules.addAll(
-                List.of(new MandatoryValueDateValidationRule(SPOT_TRANSACTION_TYPE_LABEL))
+                List.of(new MandatoryValueDateValidationRule())
         );
 
         return new TransactionValidator(Collections.unmodifiableList(validationRules));
@@ -41,7 +38,7 @@ public class ValidationConfiguration {
     TransactionValidator getForwardTransactionValidator() {
         List<ValidationRule> validationRules = new ArrayList<>(GENERAL_VALIDATION_RULES);
         validationRules.addAll(
-                List.of(new MandatoryValueDateValidationRule(FORWARD_TRANSACTION_TYPE_LABEL))
+                List.of(new MandatoryValueDateValidationRule())
         );
 
         return new TransactionValidator(Collections.unmodifiableList(validationRules));
