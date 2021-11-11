@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.validation.*;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -41,6 +40,19 @@ public class TransactionValidationController {
         List<ValidationError> transactionValidationErrors = new ArrayList<>();
         long transactionNumber = 0;
         for (Transaction transaction: transactions) {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Transaction>> violations = validator.validate(transaction);
+            for (ConstraintViolation<Transaction> violation : violations) {
+                transactionValidationErrors.add(
+                        new ValidationError(
+                                transactionNumber+1,
+                                new LinkedHashSet<>(List.of(violation.getPropertyPath().toString())),
+                                violation.getMessageTemplate()
+                        )
+                );
+            }
+
             TransactionValidator transactionValidator = getTransactionValidatorForTransaction(transaction);
             ValidationContext<? extends Transaction> validationContext = createValidationContext(transaction, transactionNumber+1);
 

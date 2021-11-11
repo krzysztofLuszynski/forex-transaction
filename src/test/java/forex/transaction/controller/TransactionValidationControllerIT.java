@@ -1,5 +1,8 @@
 package forex.transaction.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import forex.transaction.domain.TransactionsValidationResult;
+import forex.transaction.validation.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -7,6 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,8 +79,9 @@ public class TransactionValidationControllerIT {
                     .andExpect(status().isOk())
                     .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":0,\"validationErrors\":[]}");
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(0);
+        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
     }
 
     @Test
@@ -85,8 +93,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[]}");
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
     }
 
     @Test
@@ -98,15 +107,13 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
-                "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"legalEntity\"]," +
-                "\"message\":\"Unsupported legal entity: UBS AG1, supported values are: [UBS AG]\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"valueDate\"]," +
-                "\"message\":\"Value date is mandatory\"}]}"
-        );
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).containsExactlyInAnyOrder(
+                new ValidationError(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
+                new ValidationError(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
+                new ValidationError(1L, Set.of("valueDate"), "Value date is mandatory")
+                );
     }
 
     @Test
@@ -118,8 +125,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[]}");
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
     }
 
     @Test
@@ -131,14 +139,12 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
-                "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"legalEntity\"]," +
-                "\"message\":\"Unsupported legal entity: UBS AG1, supported values are: [UBS AG]\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"valueDate\"]," +
-                "\"message\":\"Value date is mandatory\"}]}"
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).containsExactlyInAnyOrder(
+                new ValidationError(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
+                new ValidationError(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
+                new ValidationError(1L, Set.of("valueDate"), "Value date is mandatory")
         );
     }
 
@@ -151,8 +157,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[]}");
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
     }
 
     @Test
@@ -164,8 +171,9 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[]}");
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).isEmpty();
     }
 
     @Test
@@ -177,18 +185,24 @@ public class TransactionValidationControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String errorMessage = result.getResponse().getContentAsString();
-        assertThat(errorMessage).isEqualTo("{\"transactionsNumber\":1,\"validationErrors\":[" +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
-                "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"legalEntity\"]," +
-                "\"message\":\"Unsupported legal entity: UBS AG1, supported values are: [UBS AG]\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"expiryDate\",\"deliveryDate\"]," +
-                "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"premiumDate\",\"deliveryDate\"]," +
-                "\"message\":\"Premium date: 2020-08-24, shall be before delivery date: 2020-08-22\"}," +
-                "{\"transactionNumber\":1,\"affectedFields\":[\"style\"]," +
-                "\"message\":\"Unsupported style: EUROPEAN1, supported values are: [EUROPEAN, AMERICAN]\"}]}"
+        TransactionsValidationResult transactionsValidationResult = getTransactionsValidationResult(result);
+        assertThat(transactionsValidationResult.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResult.getValidationErrors()).containsExactlyInAnyOrder(
+                new ValidationError(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
+                new ValidationError(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
+                new ValidationError(1L, new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
+                        "Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22"),
+                new ValidationError(1L, new LinkedHashSet<>(List.of("premiumDate", "deliveryDate")),
+                        "Premium date: 2020-08-24, shall be before delivery date: 2020-08-22"),
+                new ValidationError(1L, Set.of("style"),
+                        "Unsupported style: EUROPEAN1, supported values are: [EUROPEAN, AMERICAN]")
         );
+    }
+
+    private TransactionsValidationResult getTransactionsValidationResult(MvcResult result) throws Exception {
+        String errorMessage = result.getResponse().getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(errorMessage, TransactionsValidationResult.class);
     }
 }

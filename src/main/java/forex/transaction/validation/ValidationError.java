@@ -1,12 +1,17 @@
 package forex.transaction.validation;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.Set;
 
-@Value
+@Data
+@AllArgsConstructor
 public class ValidationError {
     Long transactionNumber;
     Set<String> affectedFields;
     String message;
+
+    // needed for jackson only
+    ValidationError() {}
 }

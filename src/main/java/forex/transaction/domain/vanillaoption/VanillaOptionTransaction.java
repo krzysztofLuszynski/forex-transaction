@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -17,6 +18,7 @@ public class VanillaOptionTransaction extends Transaction {
     LocalDate deliveryDate;
     LocalDate expiryDate;
     LocalDate excerciseStartDate;
+    @NotNull
     String payCcy;
     BigDecimal premium;
     String premiumCcy;

@@ -4,7 +4,6 @@ import forex.transaction.domain.Transaction;
 import forex.transaction.domain.vanillaoption.VanillaOptionTransaction;
 import forex.transaction.validation.ValidationContext;
 import forex.transaction.validation.ValidationError;
-import forex.transaction.validation.rule.general.SupportedLegalEntityValidationRule;
 import forex.transaction.validation.rule.vanillaoption.SupportedStyleValidationRule;
 import org.junit.jupiter.api.Test;
 
