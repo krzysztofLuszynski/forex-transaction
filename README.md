@@ -63,3 +63,8 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Created spring configuration for spot transaction validator
 #### Updated integration tests for case with invalid spot transaction
 #### Updated README with case for invalid spot transaction
+
+### Added first rules for forward along with tests - 30m
+#### Created spring configuration for forward transaction validator
+#### Updated integration tests for case with invalid forward transaction
+#### Updated README with case for invalid forward transaction
