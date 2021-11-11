@@ -1,8 +1,8 @@
-package forex.transaction.validation.domain;
+package forex.transaction.domain;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import forex.transaction.validation.domain.vanilla.option.VanillaOptionTransaction;
+import forex.transaction.domain.vanilla.option.VanillaOptionTransaction;
 import lombok.Data;
 
 import java.math.BigDecimal;

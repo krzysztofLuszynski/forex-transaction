@@ -1,6 +1,6 @@
-package forex.transaction.validation.domain.vanilla.option;
+package forex.transaction.domain.vanilla.option;
 
-import forex.transaction.validation.domain.Transaction;
+import forex.transaction.domain.Transaction;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

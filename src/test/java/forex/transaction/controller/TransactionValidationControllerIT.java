@@ -1,4 +1,4 @@
-package forex.transaction.validation.controller;
+package forex.transaction.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

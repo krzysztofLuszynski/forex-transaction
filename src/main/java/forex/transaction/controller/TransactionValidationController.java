@@ -1,7 +1,6 @@
-package forex.transaction.validation.controller;
+package forex.transaction.controller;
 
-import forex.transaction.validation.domain.SpotTransaction;
-import forex.transaction.validation.domain.Transaction;
+import forex.transaction.domain.Transaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

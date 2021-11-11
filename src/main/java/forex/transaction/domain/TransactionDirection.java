@@ -1,4 +1,4 @@
-package forex.transaction.validation.domain;
+package forex.transaction.domain;
 
 public enum TransactionDirection {
     BUY,
