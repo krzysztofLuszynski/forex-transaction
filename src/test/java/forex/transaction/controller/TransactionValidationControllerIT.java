@@ -58,7 +58,7 @@ public class TransactionValidationControllerIT {
                     "\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
                     "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\"," +
                     "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
-                    "\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
+                    "\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
 
     @Autowired
     private MockMvc mvc;
@@ -178,7 +178,9 @@ public class TransactionValidationControllerIT {
                 "{\"transactionNumber\":1,\"affectedFields\":[\"customer\"]," +
                 "\"message\":\"Unsupported customer: YODA4, supported values are: [YODA1, YODA2]\"}," +
                 "{\"transactionNumber\":1,\"affectedFields\":[\"expiryDate\",\"deliveryDate\"]," +
-                "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22\"}]}"
+                "\"message\":\"Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22\"}," +
+                "{\"transactionNumber\":1,\"affectedFields\":[\"premiumDate\",\"deliveryDate\"]," +
+                "\"message\":\"Premium date: 2020-08-24, shall be before delivery date: 2020-08-22\"}]}"
         );
     }
 }

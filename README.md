@@ -27,7 +27,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 # Example of validation of one valid VanillaOption transaction
 curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-19\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
 # Example of validation of one valid VanillaOption transaction
-curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
+curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
                     
 ```
 
@@ -42,6 +42,26 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Because transactions do not have unique id (which in my opinion is bad) I decided to put transaction number in every error and it matches number of transaction in original request
 #### For SupportedCustomerValidationRule I decide to put in the message all allowed values, cause there are only 2, but in case of many we should think of different approach
 #### With more time we can put separate GET request with validation id with the business description or validation. We can also put such validation id into every error, or put link to GET (HATEOAS approach)
+
+## TODO
+### All types of trades:
+#### value date cannot be before trade date
+#### value date cannot fall on weekend or non-working day for currency
+#### if the counterparty is one of the supported ones - DONE
+#### validate currencies if they are valid ISO codes (ISO 4217)
+
+### Spot, Forward transactions:
+#### validate the value date against the product type - DONE, checked if it is not null for spot and forward
+
+### Options specific:
+#### the style can be either American or European
+#### American option style will have in addition the excerciseStartDate, which has to be after the trade date but before the expiry date
+#### expiry date and premium date shall be before delivery date
+
+### Assumptions:
+#### Current date is 09.10.2020 - why do we need this assumption ???
+#### Supported counterparties (customers) are : YODA1, YODA2 - DONE
+#### Only one legal entity is used: UBS AG
 
 ## Timelog
 
@@ -76,3 +96,5 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Created spring configuration for vanilla option transaction validator
 #### Updated integration tests for case with invalid vanilla option transaction
 #### Updated README with case for invalid vanilla option transaction
+
+### Refactored messages of existing validation rules to be better reusable - 15m

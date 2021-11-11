@@ -5,6 +5,7 @@ import forex.transaction.validation.ValidationRule;
 import forex.transaction.validation.rule.general.SupportedCustomerValidationRule;
 import forex.transaction.validation.rule.general.MandatoryValueDateValidationRule;
 import forex.transaction.validation.rule.vanillaoption.ExpiryDateBeforeDeliveryDateValidationRule;
+import forex.transaction.validation.rule.vanillaoption.PremiumDateBeforeDeliveryDateValidationRule;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +51,8 @@ public class ValidationConfiguration {
         List<ValidationRule> validationRules = new ArrayList<>(GENERAL_VALIDATION_RULES);
 
         validationRules.addAll(
-                List.of(new ExpiryDateBeforeDeliveryDateValidationRule())
+                List.of(new ExpiryDateBeforeDeliveryDateValidationRule(),
+                        new PremiumDateBeforeDeliveryDateValidationRule())
         );
 
         return new TransactionValidator(Collections.unmodifiableList(validationRules));
