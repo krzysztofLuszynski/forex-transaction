@@ -5,6 +5,6 @@ import lombok.Value;
 
 @Value
 public class ValidationContext<T extends TransactionDTO> {
-    T transaction;
+    T transactionDTO;
     Long transactionNumber;
 }

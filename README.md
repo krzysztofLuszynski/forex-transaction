@@ -39,6 +39,9 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Because transactionDTOS do not have unique id (which in my opinion is bad) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
 
 ## TODO
+### Refactor code of validator
+### Test in junits all kinds of errors for validator
+### Implement custom validators for date before another date
 ### All types of trades:
 #### value date cannot be before trade date
 #### value date cannot fall on weekend or non-working day for currency
@@ -98,7 +101,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Added SupportedLegalEntityValidationRule along with tests
 #### Added SupportedStyleValidationRule along with tests
 
-### Introduced java-beans validations - 1h30m
+### Introduced java-beans validations - 2h
 #### Added annotations to Transaction object
 #### Removed two general validation rules along with tests
 #### Updated integration tests
@@ -106,3 +109,5 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Returning 200 or 400 (previously only 200)
 #### Added annotation to AbstractSpotForwardTransaction object
 #### Removed general rule for valueDate along with tests
+#### Added annotations to VanillaOptionTransactionDTO object
+#### Removed rule for style along with tests

@@ -14,7 +14,7 @@ import java.util.Optional;
 public class PremiumDateBeforeDeliveryDateValidationRule implements ValidationRule {
     @Override
     public Optional<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext) {
-        VanillaOptionTransactionDTO vanillaOptionTransaction = (VanillaOptionTransactionDTO) validationContext.getTransaction();
+        VanillaOptionTransactionDTO vanillaOptionTransaction = (VanillaOptionTransactionDTO) validationContext.getTransactionDTO();
 
         LocalDate premiumDate = vanillaOptionTransaction.getPremiumDate();
         LocalDate deliveryDate = vanillaOptionTransaction.getDeliveryDate();

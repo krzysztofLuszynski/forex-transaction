@@ -11,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -190,12 +188,12 @@ public class TransactionValidationControllerIT {
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationErrorDTO(1L, new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
+                /*new ValidationErrorDTO(1L, new LinkedHashSet<>(List.of("expiryDate", "deliveryDate")),
                         "Expiry date: 2020-08-23, shall be before delivery date: 2020-08-22"),
                 new ValidationErrorDTO(1L, new LinkedHashSet<>(List.of("premiumDate", "deliveryDate")),
-                        "Premium date: 2020-08-24, shall be before delivery date: 2020-08-22"),
+                        "Premium date: 2020-08-24, shall be before delivery date: 2020-08-22"),*/
                 new ValidationErrorDTO(1L, Set.of("style"),
-                        "Unsupported style: EUROPEAN1, supported values are: [EUROPEAN, AMERICAN]")
+                        "Style can be only EUROPEAN or AMERICAN")
         );
     }
 
