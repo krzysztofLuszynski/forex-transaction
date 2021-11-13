@@ -282,6 +282,34 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
     }
 
     @Test
+    void validateInvalidTransactionValueDateEqualsTradeDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setTradeDate("2021-12-12");
+        forwardTransactionDTO.setValueDate("2021-12-12");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionValueDateAfterTradeDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setTradeDate("2021-12-12");
+        forwardTransactionDTO.setValueDate("2021-12-13");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionBlankValueDate() throws Exception {
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setValueDate("");
@@ -316,9 +344,10 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         forwardTransactionDTO.setAmount1(BigDecimal.valueOf(100000000, 2));
         forwardTransactionDTO.setAmount2(BigDecimal.valueOf(112000000, 2));
         forwardTransactionDTO.setRate(BigDecimal.valueOf(112, 2));
-        forwardTransactionDTO.setValueDate("2020-08-15");
         forwardTransactionDTO.setLegalEntity("UBS AG");
         forwardTransactionDTO.setTrader("Josef Schoenberger");
+
+        forwardTransactionDTO.setValueDate("2020-08-10");
 
         return forwardTransactionDTO;
     }

@@ -38,13 +38,11 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Decided to return number of all transactionDTOS along with list of validation errors
 #### Because transactionDTOS do not have unique id (which in my opinion is bad) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
 #### Based on https://www.investopedia.com/terms/v/vanillaoption.asp - changed excercise to exercise in vanilla option
+#### No value date for vanilla options in attached demo data - applying this field only to spots and forwards, along with validations
 
 ## TODO
-### Refactor code of validator
-### Test in junits all kinds of errors for validator
-### Implement custom validators for date before another date
 ### All types of trades:
-#### value date cannot be before trade date
+#### value date cannot be before trade date - DONE for spots and forwards 
 #### value date cannot fall on weekend or non-working day for currency
 #### if the counterparty is one of the supported ones - DONE
 #### validate currencies if they are valid ISO codes (ISO 4217)
@@ -54,7 +52,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 
 ### Options specific:
 #### the style can be either American or European - DONE
-#### American option style will have in addition the excerciseStartDate, which has to be after the trade date but before the expiry date
+#### American option style will have in addition the exerciseStartDate, which has to be after the trade date but before the expiry date
 #### expiry date and premium date shall be before delivery date - DONE
 
 ### Assumptions:
@@ -113,7 +111,9 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Added annotations to VanillaOptionTransactionDTO object
 #### Removed rule for style along with tests
 
-### Moving to java beans validations - 2h30m
+### Moving to java beans validations - 4h
 ### added basic annotation along with tests for all transactions
 ### Added date format constraint to all dates field in all transactions
 ### Fixed typo excercise to exercise
+### Implemented firstDateBeforeSecondDate constraint and removed old rules
+### Used it for value date and trade date validation

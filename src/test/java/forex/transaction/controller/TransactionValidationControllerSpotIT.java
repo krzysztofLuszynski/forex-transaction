@@ -280,6 +280,34 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
     }
 
     @Test
+    void validateInvalidTransactionValueDateEqualsTradeDate() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setTradeDate("2021-12-12");
+        spotTransactionDTO.setValueDate("2021-12-12");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionValueDateAfterTradeDate() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setTradeDate("2021-12-12");
+        spotTransactionDTO.setValueDate("2021-12-13");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionBlankValueDate() throws Exception {
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setValueDate("");
@@ -317,7 +345,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         spotTransactionDTO.setLegalEntity("UBS AG");
         spotTransactionDTO.setTrader("Josef Schoenberger");
 
-        spotTransactionDTO.setValueDate("2020-08-15");
+        spotTransactionDTO.setValueDate("2020-08-10");
 
         return spotTransactionDTO;
     }
