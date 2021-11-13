@@ -16,8 +16,8 @@ public class PremiumDateBeforeDeliveryDateValidationRule implements ValidationRu
     public Optional<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext) {
         VanillaOptionTransactionDTO vanillaOptionTransaction = (VanillaOptionTransactionDTO) validationContext.getTransactionDTO();
 
-        LocalDate premiumDate = vanillaOptionTransaction.getPremiumDate();
-        LocalDate deliveryDate = vanillaOptionTransaction.getDeliveryDate();
+        LocalDate premiumDate = LocalDate.parse(vanillaOptionTransaction.getPremiumDate());
+        LocalDate deliveryDate = LocalDate.parse(vanillaOptionTransaction.getDeliveryDate());
 
         // these null checks should be done before, see solution discussion in README.md
         if (premiumDate != null && deliveryDate != null && !premiumDate.isBefore(deliveryDate)) {

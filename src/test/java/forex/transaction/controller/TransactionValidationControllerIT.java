@@ -1,14 +1,9 @@
 package forex.transaction.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import forex.transaction.dto.TransactionsValidationResultDTO;
 import forex.transaction.dto.ValidationErrorDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Set;
@@ -17,45 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class TransactionValidationControllerIT {
-    private static final String VALID_SPOT_TRANSACTION =
-            "{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"Spot\",\"direction\":\"BUY\"," +
-                    "\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"valueDate\":\"2020-08-15\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
-
-    private static final String INVALID_SPOT_TRANSACTION =
-            "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"Spot\",\"direction\":\"BUY\"," +
-                    "\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}";
-
-    private static final String VALID_FORWARD_TRANSACTION =
-            "{\"customer\":\"YODA2\",\"ccyPair\":\"EURUSD\",\"type\":\"Forward\",\"direction\":\"SELL\"," +
-                    "\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"valueDate\":\"2020-08-22\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
-
+class TransactionValidationControllerIT extends AbstractTransactionValidationControllerIT {
     private static final String INVALID_FORWARD_TRANSACTION =
             "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"Forward\",\"direction\":\"SELL\"," +
                     "\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
                     "\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}";
-
-    private static final String VALID_VANILLA_OPTION_TRANSACTION_1 =
-            "{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\"," +
-                    "\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\"," +
-                    "\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-19\",\"payCcy\":\"USD\"," +
-                    "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
-                    "\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
-
-    private static final String VALID_VANILLA_OPTION_TRANSACTION_2 =
-            "{\"customer\":\"YODA2\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"AMERICAN\"," +
-                    "\"direction\":\"SELL\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\"," +
-                    "\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12," +
-                    "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-21\"," +
-                    "\"excerciseStartDate\":\"2020-08-12\",\"payCcy\":\"USD\"," +
-                    "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
-                    "\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}";
 
     private static final String INVALID_VANILLA_OPTION_TRANSACTION =
             "{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN1\"," +
@@ -64,9 +25,6 @@ public class TransactionValidationControllerIT {
                     "\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\"," +
                     "\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\"," +
                     "\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}";
-
-    @Autowired
-    private MockMvc mvc;
 
     @Test
     void validateEmptyTransactionList() throws Exception {
@@ -79,52 +37,6 @@ public class TransactionValidationControllerIT {
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(0);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
-    }
-
-    @Test
-    void validateOneSpotValidTransaction() throws Exception {
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + VALID_SPOT_TRANSACTION + "]"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
-    }
-
-    @Test
-    void validateOneSpotInvalidTransaction() throws Exception {
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + INVALID_SPOT_TRANSACTION + "]"))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
-                new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
-                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be null")
-                );
-    }
-
-    @Test
-    void validateOneForwardValidTransaction() throws Exception {
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + VALID_FORWARD_TRANSACTION + "]"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
@@ -144,34 +56,6 @@ public class TransactionValidationControllerIT {
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be null")
         );
-    }
-
-    @Test
-    void validateOneVanillaOptionValid1Transaction() throws Exception {
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + VALID_VANILLA_OPTION_TRANSACTION_1 + "]"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
-    }
-
-    @Test
-    void validateOneVanillaOptionValid2Transaction() throws Exception {
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + VALID_VANILLA_OPTION_TRANSACTION_2 + "]"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
-        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
     }
 
     @Test
@@ -195,12 +79,5 @@ public class TransactionValidationControllerIT {
                 new ValidationErrorDTO(1L, Set.of("style"),
                         "Style can be only EUROPEAN or AMERICAN")
         );
-    }
-
-    private TransactionsValidationResultDTO getTransactionsValidationResult(MvcResult result) throws Exception {
-        String errorMessage = result.getResponse().getContentAsString();
-
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(errorMessage, TransactionsValidationResultDTO.class);
     }
 }

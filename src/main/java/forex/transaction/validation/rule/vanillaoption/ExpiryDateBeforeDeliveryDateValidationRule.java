@@ -16,8 +16,8 @@ public class ExpiryDateBeforeDeliveryDateValidationRule implements ValidationRul
     public Optional<ValidationErrorDTO> validate(ValidationContext<? extends TransactionDTO> validationContext) {
         VanillaOptionTransactionDTO vanillaOptionTransaction = (VanillaOptionTransactionDTO) validationContext.getTransactionDTO();
 
-        LocalDate expiryDate = vanillaOptionTransaction.getExpiryDate();
-        LocalDate deliveryDate = vanillaOptionTransaction.getDeliveryDate();
+        LocalDate expiryDate = LocalDate.parse(vanillaOptionTransaction.getExpiryDate());
+        LocalDate deliveryDate = LocalDate.parse(vanillaOptionTransaction.getDeliveryDate());
 
         // these null checks should be done before, see solution discussion in README.md
         if (expiryDate != null && deliveryDate != null && !expiryDate.isBefore(deliveryDate)) {

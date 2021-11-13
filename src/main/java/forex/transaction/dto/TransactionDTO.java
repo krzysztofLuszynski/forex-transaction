@@ -18,26 +18,30 @@ import java.time.LocalDate;
 })
 @Data
 public abstract class TransactionDTO {
+    @NotNull(message = "Customer can not be null")
     @Pattern(regexp = "YODA1|YODA2", message = "Customer can be only YODA1 or YODA2")
     String customer;
 
-    @NotBlank(message = "CcyPair can not be blank")
+    @NotNull(message = "CcyPair can not be null")
     String ccyPair;
 
+    @NotNull(message = "Direction can not be null")
     @Pattern(regexp = "BUY|SELL", message="Direction can be only BUY or SELL")
     String direction;
 
-    LocalDate tradeDate;
+    @NotNull(message = "Trade date can not be null")
+    String tradeDate;
 
-    @NotNull(message = "amount1 can not be null")
+    @NotNull(message = "Amount1 can not be null")
     BigDecimal amount1;
 
-    @NotNull(message = "amount2 can not be null")
+    @NotNull(message = "Amount2 can not be null")
     BigDecimal amount2;
 
-    @NotNull(message = "rate can not be null")
+    @NotNull(message = "Rate can not be null")
     BigDecimal rate;
 
+    @NotNull(message = "Legal entity can not be null")
     @Pattern(regexp = "UBS AG", message = "Legal entity can be only UBS AG")
     String legalEntity;
 

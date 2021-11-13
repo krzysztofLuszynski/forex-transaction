@@ -12,5 +12,5 @@ import java.time.LocalDate;
 @ToString(callSuper = true)
 public class AbstractSpotForwardTransactionDTO extends TransactionDTO {
     @NotNull(message = "Value date can not be null")
-    LocalDate valueDate;
+    String valueDate;
 }

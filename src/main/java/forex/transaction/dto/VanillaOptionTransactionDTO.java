@@ -14,17 +14,21 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
 public class VanillaOptionTransactionDTO extends TransactionDTO {
+    @NotNull(message = "Style can not be null")
     @Pattern(regexp = "EUROPEAN|AMERICAN", message="Style can be only EUROPEAN or AMERICAN")
     String style;
 
+    @NotNull(message = "Strategy can not be null")
     @Pattern(regexp = "CALL", message="Strategy can be only CALL")
     String strategy;
 
-    LocalDate deliveryDate;
+    @NotNull(message = "Delivery date can not be null")
+    String deliveryDate;
 
-    LocalDate expiryDate;
+    @NotNull(message = "Expiry date can not be null")
+    String expiryDate;
 
-    LocalDate excerciseStartDate;
+    String excerciseStartDate;
 
     @NotNull(message = "PayCcy can not be null")
     String payCcy;
@@ -32,5 +36,5 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     BigDecimal premium;
     String premiumCcy;
     String premiumType;
-    LocalDate premiumDate;
+    String premiumDate;
 }
