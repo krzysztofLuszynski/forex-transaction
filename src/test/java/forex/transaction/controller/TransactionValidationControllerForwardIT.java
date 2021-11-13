@@ -281,6 +281,32 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         );
     }
 
+    @Test
+    void validateInvalidTransactionBlankValueDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setValueDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidValueDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setValueDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only YYYY-mm-dd")
+        );
+    }
+
     private ForwardTransactionDTO getValidForwardTransactionDTO() {
         ForwardTransactionDTO forwardTransactionDTO = new ForwardTransactionDTO();
         forwardTransactionDTO.setCustomer("YODA1");
