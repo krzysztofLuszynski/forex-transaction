@@ -137,6 +137,32 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
     }
 
     @Test
+    void validateInvalidTransactionBlankTradeDate() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setTradeDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidTradeDate() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setTradeDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionNullAmount1() throws Exception {
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setAmount1(null);

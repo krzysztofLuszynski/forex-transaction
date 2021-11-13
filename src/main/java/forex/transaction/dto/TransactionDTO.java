@@ -2,6 +2,7 @@ package forex.transaction.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import forex.transaction.validation.DateFormatConstraint;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -30,6 +31,7 @@ public abstract class TransactionDTO {
     String direction;
 
     @NotNull(message = "Trade date can not be null")
+    @DateFormatConstraint(message = "Trade date format can be only YYYY-mm-dd")
     String tradeDate;
 
     @NotNull(message = "Amount1 can not be null")

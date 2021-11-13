@@ -154,6 +154,32 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
+    void validateInvalidTransactionBlankTradeDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setTradeDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidTradeDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setTradeDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionNullAmount1() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
         vanillaOptionTransactionDTO.setAmount1(null);

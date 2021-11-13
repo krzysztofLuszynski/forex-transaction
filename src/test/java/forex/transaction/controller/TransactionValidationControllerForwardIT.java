@@ -137,6 +137,34 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
     }
 
     @Test
+    void validateInvalidTransactionBlankTradeDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setTradeDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidTradeDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setTradeDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+        );
+    }
+
+
+
+    @Test
     void validateInvalidTransactionNullAmount1() throws Exception {
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setAmount1(null);
