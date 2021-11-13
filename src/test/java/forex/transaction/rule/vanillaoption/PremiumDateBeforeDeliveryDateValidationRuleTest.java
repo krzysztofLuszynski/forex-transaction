@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PremiumDateBeforeDeliveryDateValidationRuleTest {
+class PremiumDateBeforeDeliveryDateValidationRuleTest {
     PremiumDateBeforeDeliveryDateValidationRule premiumDateBeforeDeliveryDateValidationRule
             = new PremiumDateBeforeDeliveryDateValidationRule();
 

@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class TransactionValidationControllerVanillaOptionIT extends AbstractTransactionValidationControllerIT {
+class TransactionValidationControllerVanillaOptionIT extends AbstractTransactionValidationControllerIT {
     @Test
     void validateOneValidEuropeanTransaction() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();

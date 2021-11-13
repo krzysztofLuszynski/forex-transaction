@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class TransactionValidationControllerForwardIT extends AbstractTransactionValidationControllerIT {
+class TransactionValidationControllerForwardIT extends AbstractTransactionValidationControllerIT {
     @Test
     void validateOneValidTransaction() throws Exception {
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
