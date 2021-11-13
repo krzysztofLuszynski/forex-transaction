@@ -145,7 +145,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only yyyy-MM-dd")
         );
     }
 
@@ -158,7 +158,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only YYYY-mm-dd")
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only yyyy-MM-dd")
         );
     }
 
@@ -290,7 +290,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only YYYY-mm-dd")
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only yyyy-MM-dd")
         );
     }
 
@@ -303,7 +303,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only YYYY-mm-dd")
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only yyyy-MM-dd")
         );
     }
 

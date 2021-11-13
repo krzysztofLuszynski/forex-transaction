@@ -31,7 +31,7 @@ public abstract class TransactionDTO {
     String direction;
 
     @NotNull(message = "Trade date can not be null")
-    @DateFormatConstraint(message = "Trade date format can be only YYYY-mm-dd")
+    @DateFormatConstraint(message = "Trade date format can be only yyyy-MM-dd")
     String tradeDate;
 
     @NotNull(message = "Amount1 can not be null")

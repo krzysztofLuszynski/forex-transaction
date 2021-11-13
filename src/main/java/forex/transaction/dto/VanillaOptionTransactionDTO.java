@@ -1,7 +1,7 @@
 package forex.transaction.dto;
 
-import forex.transaction.dto.TransactionDTO;
 import forex.transaction.validation.DateFormatConstraint;
+import forex.transaction.validation.FirstDateBeforeSecondDateConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -9,11 +9,20 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
+@FirstDateBeforeSecondDateConstraint.List({
+        @FirstDateBeforeSecondDateConstraint(
+            firstDateStringProperty = "expiryDate",
+            secondDateStringProperty = "deliveryDate",
+            message = "Expiry date can not be after or equal delivery date"),
+        @FirstDateBeforeSecondDateConstraint(
+            firstDateStringProperty = "premiumDate",
+            secondDateStringProperty = "deliveryDate",
+            message = "Premium date can not be after or equal delivery date")
+        })
 public class VanillaOptionTransactionDTO extends TransactionDTO {
     @NotNull(message = "Style can not be null")
     @Pattern(regexp = "EUROPEAN|AMERICAN", message="Style can be only EUROPEAN or AMERICAN")
@@ -24,14 +33,14 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     String strategy;
 
     @NotNull(message = "Delivery date can not be null")
-    @DateFormatConstraint(message = "Delivery date format can be only YYYY-mm-dd")
+    @DateFormatConstraint(message = "Delivery date format can be only yyyy-MM-dd")
     String deliveryDate;
 
     @NotNull(message = "Expiry date can not be null")
-    @DateFormatConstraint(message = "Expiry date format can be only YYYY-mm-dd")
+    @DateFormatConstraint(message = "Expiry date format can be only yyyy-MM-dd")
     String expiryDate;
 
-    @DateFormatConstraint(message = "Exercise start date format can be only YYYY-mm-dd")
+    @DateFormatConstraint(message = "Exercise start date format can be only yyyy-MM-dd")
     String exerciseStartDate;
 
     @NotNull(message = "PayCcy can not be null")
@@ -41,6 +50,6 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     String premiumCcy;
     String premiumType;
 
-    @DateFormatConstraint(message = "Premium date format can be only YYYY-mm-dd")
+    @DateFormatConstraint(message = "Premium date format can be only yyyy-MM-dd")
     String premiumDate;
 }

@@ -13,6 +13,6 @@ import java.time.LocalDate;
 @ToString(callSuper = true)
 public class AbstractSpotForwardTransactionDTO extends TransactionDTO {
     @NotNull(message = "Value date can not be null")
-    @DateFormatConstraint(message = "Value date format can be only YYYY-mm-dd")
+    @DateFormatConstraint(message = "Value date format can be only yyyy-MM-dd")
     String valueDate;
 }

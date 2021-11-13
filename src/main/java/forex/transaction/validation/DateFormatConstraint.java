@@ -11,6 +11,12 @@ import java.lang.annotation.*;
 public @interface DateFormatConstraint {
     String value() default "yyyy-MM-dd";
     String message() default "Invalid date format";
+
+    // needed for validation framework
+    @SuppressWarnings("unused")
     Class<?>[] groups() default {};
+
+    // needed for validation framework
+    @SuppressWarnings("unused")
     Class<? extends Payload>[] payload() default {};
 }

@@ -15,12 +15,12 @@ class DateFormatValidatorTest {
     void setUpValidators() {
         dateFormatValidatorYYYYMMDD = new DateFormatValidator();
         DateFormatConstraint dateFormatYYYYMMDDConstraintMock = mock(DateFormatConstraint.class);
-        when(dateFormatYYYYMMDDConstraintMock.value()).thenReturn("YYYY-mm-dd");
+        when(dateFormatYYYYMMDDConstraintMock.value()).thenReturn("yyyy-MM-dd");
         dateFormatValidatorYYYYMMDD.initialize(dateFormatYYYYMMDDConstraintMock);
 
         dateFormatValidatorMMDDYYYY = new DateFormatValidator();
         DateFormatConstraint dateFormatMMDDYYYYConstraintMock = mock(DateFormatConstraint.class);
-        when(dateFormatMMDDYYYYConstraintMock.value()).thenReturn("mm-dd-YYYY");
+        when(dateFormatMMDDYYYYConstraintMock.value()).thenReturn("dd-MM-yyyy");
         dateFormatValidatorMMDDYYYY.initialize(dateFormatMMDDYYYYConstraintMock);
     }
 
