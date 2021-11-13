@@ -111,3 +111,5 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Removed general rule for valueDate along with tests
 #### Added annotations to VanillaOptionTransactionDTO object
 #### Removed rule for style along with tests
+
+### Moving to java beans basic validations - 1h30m
