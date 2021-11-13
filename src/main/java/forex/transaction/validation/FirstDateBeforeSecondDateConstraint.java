@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FirstDateBeforeSecondDateConstraint {
-    String message() default "First date must be before second date";
-
     String firstDateStringProperty();
 
     String firstDatePropertyFormat() default "yyyy-MM-dd";
@@ -20,6 +18,10 @@ public @interface FirstDateBeforeSecondDateConstraint {
     String secondDateStringProperty();
 
     String secondDatePropertyFormat() default "yyyy-MM-dd";
+
+    String isApplicableBooleanProperty() default "";
+
+    String message() default "First date must be before second date";
 
     // needed for validation framework
     @SuppressWarnings("unused")

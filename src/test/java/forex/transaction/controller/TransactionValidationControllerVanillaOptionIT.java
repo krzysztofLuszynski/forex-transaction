@@ -180,6 +180,34 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
+    void validateInvalidTransactionInvalidTradeDateEqualsExerciseStartDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setTradeDate("2020-08-12");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, getPropertiesSet("tradeDate", "exerciseStartDate"),
+                        "Trade date can not be after or equal exercise start date")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidTradeDateAfterExerciseStartDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setTradeDate("2020-08-13");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, getPropertiesSet("tradeDate", "exerciseStartDate"),
+                        "Trade date can not be after or equal exercise start date")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionNullAmount1() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
         vanillaOptionTransactionDTO.setAmount1(null);
@@ -449,7 +477,7 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("expiryDate", "deliveryDate"), "Expiry date can not be after or equal delivery date")
+                new ValidationErrorDTO(1L, getPropertiesSet("expiryDate", "deliveryDate"), "Expiry date can not be after or equal delivery date")
         );
     }
 
@@ -463,7 +491,8 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("expiryDate", "deliveryDate"), "Expiry date can not be after or equal delivery date")
+                new ValidationErrorDTO(1L, getPropertiesSet("expiryDate", "deliveryDate"),
+                        "Expiry date can not be after or equal delivery date")
         );
     }
 
@@ -476,7 +505,8 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("exerciseStartDate"), "Exercise start date format can be only yyyy-MM-dd")
+                new ValidationErrorDTO(1L, getPropertiesSet("exerciseStartDate"),
+                        "Exercise start date format can be only yyyy-MM-dd")
         );
     }
 
@@ -490,6 +520,34 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("exerciseStartDate"), "Exercise start date format can be only yyyy-MM-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionExerciseStartDateEqualsExpiryDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setExerciseStartDate("2020-08-19");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, getPropertiesSet("exerciseStartDate", "expiryDate"),
+                        "Exercise start date can not be after or equal expiry date")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionExerciseStartDateAfterExpiryDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setExerciseStartDate("2020-08-20");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, getPropertiesSet("exerciseStartDate", "expiryDate"),
+                        "Exercise start date can not be after or equal expiry date")
         );
     }
 
@@ -542,7 +600,8 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("premiumDate", "deliveryDate"), "Premium date can not be after or equal delivery date")
+                new ValidationErrorDTO(1L, getPropertiesSet("premiumDate", "deliveryDate"),
+                        "Premium date can not be after or equal delivery date")
         );
     }
 
@@ -556,7 +615,8 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("premiumDate", "deliveryDate"), "Premium date can not be after or equal delivery date")
+                new ValidationErrorDTO(1L, getPropertiesSet("premiumDate", "deliveryDate"),
+                        "Premium date can not be after or equal delivery date")
         );
     }
 

@@ -291,7 +291,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
+                new ValidationErrorDTO(1L, getPropertiesSet("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
         );
     }
 
@@ -305,7 +305,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
+                new ValidationErrorDTO(1L, getPropertiesSet("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
         );
     }
 

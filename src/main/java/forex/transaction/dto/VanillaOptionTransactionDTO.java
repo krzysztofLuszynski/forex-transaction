@@ -5,6 +5,7 @@ import forex.transaction.validation.FirstDateBeforeSecondDateConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -21,8 +22,18 @@ import java.math.BigDecimal;
         @FirstDateBeforeSecondDateConstraint(
             firstDateStringProperty = "premiumDate",
             secondDateStringProperty = "deliveryDate",
-            message = "Premium date can not be after or equal delivery date")
-        })
+            message = "Premium date can not be after or equal delivery date"),
+        @FirstDateBeforeSecondDateConstraint(
+            firstDateStringProperty = "tradeDate",
+            secondDateStringProperty = "exerciseStartDate",
+            isApplicableBooleanProperty = "applicableForAmericanStyle",
+            message = "Trade date can not be after or equal exercise start date"),
+        @FirstDateBeforeSecondDateConstraint(
+            firstDateStringProperty = "exerciseStartDate",
+            secondDateStringProperty = "expiryDate",
+            isApplicableBooleanProperty = "applicableForAmericanStyle",
+            message = "Exercise start date can not be after or equal expiry date")
+})
 public class VanillaOptionTransactionDTO extends TransactionDTO {
     @NotNull(message = "Style can not be null")
     @Pattern(regexp = "EUROPEAN|AMERICAN", message="Style can be only EUROPEAN or AMERICAN")
@@ -52,4 +63,9 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
 
     @DateFormatConstraint(message = "Premium date format can be only yyyy-MM-dd")
     String premiumDate;
+
+    @SuppressWarnings("unused")
+    public boolean getApplicableForAmericanStyle() {
+        return StringUtils.equals(style, "AMERICAN");
+    }
 }

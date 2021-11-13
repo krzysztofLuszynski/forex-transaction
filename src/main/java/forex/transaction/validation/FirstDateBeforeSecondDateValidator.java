@@ -1,5 +1,6 @@
 package forex.transaction.validation;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanWrapperImpl;
 
 import javax.validation.ConstraintValidator;
@@ -13,22 +14,30 @@ import java.util.Date;
 import java.util.Optional;
 
 public class FirstDateBeforeSecondDateValidator implements ConstraintValidator<FirstDateBeforeSecondDateConstraint, Object> {
-    private String firstDateString;
-    private String firstDateFormat;
-    private String secondDateString;
-    private String secondDateFormat;
+    private String firstDateStringProperty;
+    private String firstDatePropertyFormat;
+    private String secondDateStringProperty;
+    private String secondDatePropertyFormat;
+    private String isApplicableBooleanProperty;
 
     public void initialize(FirstDateBeforeSecondDateConstraint constraintAnnotation) {
-        firstDateString = constraintAnnotation.firstDateStringProperty();
-        firstDateFormat = constraintAnnotation.firstDatePropertyFormat();
-        secondDateString = constraintAnnotation.secondDateStringProperty();
-        secondDateFormat = constraintAnnotation.secondDatePropertyFormat();
+        firstDateStringProperty = constraintAnnotation.firstDateStringProperty();
+        firstDatePropertyFormat = constraintAnnotation.firstDatePropertyFormat();
+        secondDateStringProperty = constraintAnnotation.secondDateStringProperty();
+        secondDatePropertyFormat = constraintAnnotation.secondDatePropertyFormat();
+        isApplicableBooleanProperty = constraintAnnotation.isApplicableBooleanProperty();
     }
 
     public boolean isValid(Object object, ConstraintValidatorContext context) {
+        if (StringUtils.isNotBlank(isApplicableBooleanProperty)) {
+            Boolean isApplicable = (Boolean) new BeanWrapperImpl(object).getPropertyValue(isApplicableBooleanProperty);
+            if (Boolean.FALSE.equals(isApplicable)) {
+                return true;
+            }
+        }
 
-        Optional<LocalDate> firstLocalDate = getLocalDateValue(object, firstDateString, firstDateFormat);
-        Optional<LocalDate> secondLocalDate = getLocalDateValue(object, secondDateString, secondDateFormat);
+        Optional<LocalDate> firstLocalDate = getLocalDateValue(object, firstDateStringProperty, firstDatePropertyFormat);
+        Optional<LocalDate> secondLocalDate = getLocalDateValue(object, secondDateStringProperty, secondDatePropertyFormat);
 
         if (firstLocalDate.isEmpty() || secondLocalDate.isEmpty()) {
             // invalid formats should be handled by different validators

@@ -12,6 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,5 +47,9 @@ class AbstractTransactionValidationControllerIT {
         String errorMessage = result.getResponse().getContentAsString();
 
         return objectMapper.readValue(errorMessage, TransactionsValidationResultDTO.class);
+    }
+
+    Set<String> getPropertiesSet(String... properties) {
+        return new LinkedHashSet<>(List.of(properties));
     }
 }

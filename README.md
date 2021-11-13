@@ -52,7 +52,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 
 ### Options specific:
 #### the style can be either American or European - DONE
-#### American option style will have in addition the exerciseStartDate, which has to be after the trade date but before the expiry date
+#### American option style will have in addition the exerciseStartDate, which has to be after the trade date but before the expiry date - DONE
 #### expiry date and premium date shall be before delivery date - DONE
 
 ### Assumptions:
@@ -112,8 +112,12 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Removed rule for style along with tests
 
 ### Moving to java beans validations - 4h
-### added basic annotation along with tests for all transactions
-### Added date format constraint to all dates field in all transactions
-### Fixed typo excercise to exercise
-### Implemented firstDateBeforeSecondDate constraint and removed old rules
-### Used it for value date and trade date validation
+#### added basic annotation along with tests for all transactions
+#### Added date format constraint to all dates field in all transactions
+#### Fixed typo excercise to exercise
+#### Implemented firstDateBeforeSecondDate constraint and removed old rules
+#### Used it for value date and trade date validation
+
+### Other validatations - 1h
+#### Added validations for dates for AMERICAN vanilla options
+
