@@ -440,28 +440,28 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
-    void validateInvalidTransactionBlankExcerciseStartDate() throws Exception {
+    void validateInvalidTransactionBlankExerciseStartDate() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
-        vanillaOptionTransactionDTO.setExcerciseStartDate("");
+        vanillaOptionTransactionDTO.setExerciseStartDate("");
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("excerciseStartDate"), "Excercise start date format can be only YYYY-mm-dd")
+                new ValidationErrorDTO(1L, Set.of("exerciseStartDate"), "Exercise start date format can be only YYYY-mm-dd")
         );
     }
 
     @Test
-    void validateInvalidTransactionInvalidExcerciseStartDate() throws Exception {
+    void validateInvalidTransactionInvalidExerciseStartDate() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
-        vanillaOptionTransactionDTO.setExcerciseStartDate("12-12-2021");
+        vanillaOptionTransactionDTO.setExerciseStartDate("12-12-2021");
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
-                new ValidationErrorDTO(1L, Set.of("excerciseStartDate"), "Excercise start date format can be only YYYY-mm-dd")
+                new ValidationErrorDTO(1L, Set.of("exerciseStartDate"), "Exercise start date format can be only YYYY-mm-dd")
         );
     }
 
@@ -548,7 +548,7 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
 
         vanillaOptionTransactionDTO.setDeliveryDate("2020-08-22");
         vanillaOptionTransactionDTO.setExpiryDate("2020-08-19");
-        vanillaOptionTransactionDTO.setExcerciseStartDate("2020-08-12");
+        vanillaOptionTransactionDTO.setExerciseStartDate("2020-08-12");
         vanillaOptionTransactionDTO.setPayCcy("USD");
 
         vanillaOptionTransactionDTO.setPremium(BigDecimal.valueOf(20,2));

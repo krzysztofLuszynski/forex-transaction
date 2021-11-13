@@ -31,8 +31,8 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     @DateFormatConstraint(message = "Expiry date format can be only YYYY-mm-dd")
     String expiryDate;
 
-    @DateFormatConstraint(message = "Excercise start date format can be only YYYY-mm-dd")
-    String excerciseStartDate;
+    @DateFormatConstraint(message = "Exercise start date format can be only YYYY-mm-dd")
+    String exerciseStartDate;
 
     @NotNull(message = "PayCcy can not be null")
     String payCcy;

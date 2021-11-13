@@ -37,6 +37,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Also because of that I decided to return 200 when no validation errors, 400 when there are validation errors
 #### Decided to return number of all transactionDTOS along with list of validation errors
 #### Because transactionDTOS do not have unique id (which in my opinion is bad) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
+#### Based on https://www.investopedia.com/terms/v/vanillaoption.asp - changed excercise to exercise in vanilla option
 
 ## TODO
 ### Refactor code of validator
@@ -112,4 +113,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Added annotations to VanillaOptionTransactionDTO object
 #### Removed rule for style along with tests
 
-### Moving to java beans basic validations - 1h30m
+### Moving to java beans validations - 2h30m
+### added basic annotation along with tests for all transactions
+### Added date format constraint to all dates field in all transactions
+### Fixed typo excercise to exercise
