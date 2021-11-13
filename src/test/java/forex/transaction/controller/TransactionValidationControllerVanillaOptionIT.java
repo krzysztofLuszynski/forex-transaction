@@ -375,6 +375,32 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
+    void validateInvalidTransactionBlankDeliveryDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setDeliveryDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("deliveryDate"), "Delivery date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidDeliveryDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setDeliveryDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("deliveryDate"), "Delivery date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionNullExpiryDate() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
         vanillaOptionTransactionDTO.setExpiryDate(null);
@@ -388,6 +414,58 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
+    void validateInvalidTransactionBlankExpiryDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setExpiryDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("expiryDate"), "Expiry date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidExpiryDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setExpiryDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("expiryDate"), "Expiry date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionBlankExcerciseStartDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setExcerciseStartDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("excerciseStartDate"), "Excercise start date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidExcerciseStartDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setExcerciseStartDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("excerciseStartDate"), "Excercise start date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionNullPayCcy() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
         vanillaOptionTransactionDTO.setPayCcy(null);
@@ -397,6 +475,32 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("payCcy"), "PayCcy can not be null")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionBlankPremiumDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setPremiumDate("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("premiumDate"), "Premium date format can be only YYYY-mm-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidPremiumDate() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
+        vanillaOptionTransactionDTO.setPremiumDate("12-12-2021");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("premiumDate"), "Premium date format can be only YYYY-mm-dd")
         );
     }
 

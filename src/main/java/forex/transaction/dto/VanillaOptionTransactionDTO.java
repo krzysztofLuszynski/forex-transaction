@@ -1,6 +1,7 @@
 package forex.transaction.dto;
 
 import forex.transaction.dto.TransactionDTO;
+import forex.transaction.validation.DateFormatConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -23,11 +24,14 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     String strategy;
 
     @NotNull(message = "Delivery date can not be null")
+    @DateFormatConstraint(message = "Delivery date format can be only YYYY-mm-dd")
     String deliveryDate;
 
     @NotNull(message = "Expiry date can not be null")
+    @DateFormatConstraint(message = "Expiry date format can be only YYYY-mm-dd")
     String expiryDate;
 
+    @DateFormatConstraint(message = "Excercise start date format can be only YYYY-mm-dd")
     String excerciseStartDate;
 
     @NotNull(message = "PayCcy can not be null")
@@ -36,5 +40,7 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     BigDecimal premium;
     String premiumCcy;
     String premiumType;
+
+    @DateFormatConstraint(message = "Premium date format can be only YYYY-mm-dd")
     String premiumDate;
 }
