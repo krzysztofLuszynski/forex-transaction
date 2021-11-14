@@ -25,56 +25,56 @@ class DateFormatValidatorTest {
     }
 
     @Test
-    void testYYYYMMDDValidatorNullDate() {
+    void isValidYYYYMMDDValidatorNullDate() {
         boolean valid = dateFormatValidatorYYYYMMDD.isValid(null, null);
 
         assertThat(valid).isTrue();
     }
 
     @Test
-    void testYYYYMMDDValidatorBlankDate() {
+    void isValidYYYYMMDDValidatorBlankDate() {
         boolean valid = dateFormatValidatorYYYYMMDD.isValid("", null);
 
         assertThat(valid).isFalse();
     }
 
     @Test
-    void testYYYYMMDDValidatorInvalidDate() {
+    void isValidYYYYMMDDValidatorInvalidDate() {
         boolean valid = dateFormatValidatorYYYYMMDD.isValid("2022-ee-12", null);
 
         assertThat(valid).isFalse();
     }
 
     @Test
-    void testYYYYMMDDValidatorValidDate() {
+    void isValidYYYYMMDDValidatorValidDate() {
         boolean valid = dateFormatValidatorYYYYMMDD.isValid("2022-12-12", null);
 
         assertThat(valid).isTrue();
     }
 
     @Test
-    void testMMDDYYYYValidatorNullDate() {
+    void isValidMMDDYYYYValidatorNullDate() {
         boolean valid = dateFormatValidatorMMDDYYYY.isValid(null, null);
 
         assertThat(valid).isTrue();
     }
 
     @Test
-    void testMMDDYYYYValidatorBlankDate() {
+    void isValidMMDDYYYYValidatorBlankDate() {
         boolean valid = dateFormatValidatorMMDDYYYY.isValid("", null);
 
         assertThat(valid).isFalse();
     }
 
     @Test
-    void testMMDDYYYYValidatorInvalidDate() {
+    void isValidMMDDYYYYValidatorInvalidDate() {
         boolean valid = dateFormatValidatorMMDDYYYY.isValid("2022-12-12", null);
 
         assertThat(valid).isFalse();
     }
 
     @Test
-    void testMMDDYYYYValidatorValidDate() {
+    void isValidMMDDYYYYValidatorValidDate() {
         boolean valid = dateFormatValidatorMMDDYYYY.isValid("12-12-2022", null);
 
         assertThat(valid).isTrue();

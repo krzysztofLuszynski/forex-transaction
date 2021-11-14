@@ -39,6 +39,8 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Because transactionDTOS do not have unique id (which in my opinion is bad) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
 #### Based on https://www.investopedia.com/terms/v/vanillaoption.asp - changed excercise to exercise in vanilla option
 #### No value date for vanilla options in attached demo data - applying this field only to spots and forwards, along with validations
+#### I do not like CcyPair - I would introduce currency1 and currency2 - the same like for amount1 and amount2
+#### Also naming like PayCcy, PremiumCcy is poor - I would use full names PaymentCurrency and PremiumCurrency
 
 ## TODO
 ### All types of trades:
@@ -118,6 +120,7 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### Implemented firstDateBeforeSecondDate constraint and removed old rules
 #### Used it for value date and trade date validation
 
-### Other validatations - 1h
-#### Added validations for dates for AMERICAN vanilla options
+### Other validatations - 2h
+#### Added validations for dates for AMERICAN vanilla options along with tests
+#### Added validations for currency for single value along with tests
 

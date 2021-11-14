@@ -1,5 +1,7 @@
 package forex.transaction.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import forex.transaction.validation.CurrencyConstraint;
 import forex.transaction.validation.DateFormatConstraint;
 import forex.transaction.validation.FirstDateBeforeSecondDateConstraint;
 import lombok.Data;
@@ -55,10 +57,14 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     String exerciseStartDate;
 
     @NotNull(message = "PayCcy can not be null")
+    @CurrencyConstraint(message = "PayCcy must be ISO-4217 currency")
     String payCcy;
 
     BigDecimal premium;
+
+    @CurrencyConstraint(message = "PremiumCcy must be ISO-4217 currency")
     String premiumCcy;
+
     String premiumType;
 
     @DateFormatConstraint(message = "Premium date format can be only yyyy-MM-dd")

@@ -565,6 +565,32 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
+    void validateInvalidTransactionInvalidPayCcy() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setPayCcy("AAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("payCcy"), "PayCcy must be ISO-4217 currency")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionInvalidPremiumCcy() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setPremiumCcy("AAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("premiumCcy"), "PremiumCcy must be ISO-4217 currency")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionBlankPremiumDate() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionAmericanTransactionDTO();
         vanillaOptionTransactionDTO.setPremiumDate("");
