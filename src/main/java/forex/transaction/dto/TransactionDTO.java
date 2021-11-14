@@ -3,6 +3,7 @@ package forex.transaction.dto;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import forex.transaction.validation.DateFormatConstraint;
+import forex.transaction.validation.currency.CurrencyPairConstraint;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public abstract class TransactionDTO {
     String customer;
 
     @NotNull(message = "CcyPair can not be null")
+    @CurrencyPairConstraint(message = "CcyPair must contain two ISO-4217 currencies")
     String ccyPair;
 
     @NotNull(message = "Direction can not be null")

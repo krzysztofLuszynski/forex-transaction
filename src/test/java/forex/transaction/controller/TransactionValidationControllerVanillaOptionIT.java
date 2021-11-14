@@ -102,6 +102,71 @@ class TransactionValidationControllerVanillaOptionIT extends AbstractTransaction
     }
 
     @Test
+    void validateInvalidTransactionBlankCcyPair() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setCcyPair("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionLessThan6CharactersCcyPair() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setCcyPair("AAAAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionMoreThan6CharactersCcyPair() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setCcyPair("AAAAAAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionAAAEURCcyPair() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setCcyPair("AAAEUR");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionEURAAACcyPair() throws Exception {
+        VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
+        vanillaOptionTransactionDTO.setCcyPair("AAAEUR");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(vanillaOptionTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionNullDirection() throws Exception {
         VanillaOptionTransactionDTO vanillaOptionTransactionDTO = getValidVanillaOptionEuropeanTransactionDTO();
         vanillaOptionTransactionDTO.setDirection(null);

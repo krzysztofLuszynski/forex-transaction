@@ -85,6 +85,73 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
     }
 
     @Test
+    void validateInvalidTransactionBlankCcyPair() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setCcyPair("");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionLessThan6CharactersCcyPair() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setCcyPair("AAAAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionMoreThan6CharactersCcyPair() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setCcyPair("AAAAAAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionAAAEURCcyPair() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setCcyPair("AAAEUR");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionEURAAACcyPair() throws Exception {
+        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
+        spotTransactionDTO.setCcyPair("EURAAA");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
+        );
+    }
+
+
+
+    @Test
     void validateInvalidTransactionNullDirection() throws Exception {
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setDirection(null);

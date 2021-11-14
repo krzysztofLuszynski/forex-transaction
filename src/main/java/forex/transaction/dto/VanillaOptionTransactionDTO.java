@@ -1,7 +1,6 @@
 package forex.transaction.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import forex.transaction.validation.CurrencyConstraint;
+import forex.transaction.validation.currency.CurrencyConstraint;
 import forex.transaction.validation.DateFormatConstraint;
 import forex.transaction.validation.FirstDateBeforeSecondDateConstraint;
 import lombok.Data;

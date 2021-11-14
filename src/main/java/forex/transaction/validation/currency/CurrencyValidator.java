@@ -1,23 +1,19 @@
-package forex.transaction.validation;
+package forex.transaction.validation.currency;
 
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Currency;
 
 public class CurrencyValidator implements ConstraintValidator<CurrencyConstraint, String> {
+    private final CurrencyValidatorUtil currencyValidatorUtil = new CurrencyValidatorUtil();
+
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (StringUtils.isBlank(value)) {
             return true;
         }
 
-        try {
-            Currency.getInstance(value);
-            return true;
-        } catch (IllegalArgumentException exception) {
-            return false;
-        }
+        return currencyValidatorUtil.isValidISO4217Currency(value);
     }
 }

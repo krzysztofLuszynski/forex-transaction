@@ -1,4 +1,4 @@
-package forex.transaction.validation;
+package forex.transaction.validation.currency;
 
 import org.junit.jupiter.api.Test;
 
