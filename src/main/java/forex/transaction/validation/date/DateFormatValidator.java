@@ -1,4 +1,4 @@
-package forex.transaction.validation;
+package forex.transaction.validation.date;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

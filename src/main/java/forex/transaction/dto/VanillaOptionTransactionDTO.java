@@ -1,8 +1,8 @@
 package forex.transaction.dto;
 
 import forex.transaction.validation.currency.CurrencyConstraint;
-import forex.transaction.validation.DateFormatConstraint;
-import forex.transaction.validation.FirstDateBeforeSecondDateConstraint;
+import forex.transaction.validation.date.DateFormatConstraint;
+import forex.transaction.validation.date.FirstDateBeforeSecondDateConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

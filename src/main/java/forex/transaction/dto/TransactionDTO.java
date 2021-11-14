@@ -2,7 +2,7 @@ package forex.transaction.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import forex.transaction.validation.DateFormatConstraint;
+import forex.transaction.validation.date.DateFormatConstraint;
 import forex.transaction.validation.currency.CurrencyPairConstraint;
 import lombok.Data;
 
