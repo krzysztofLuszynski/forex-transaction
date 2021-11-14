@@ -4,29 +4,16 @@ import forex.transaction.dto.ForwardTransactionDTO;
 import forex.transaction.dto.TransactionsValidationResultDTO;
 import forex.transaction.dto.ValidationErrorDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class TransactionValidationControllerForwardIT extends AbstractTransactionValidationControllerIT {
     @Test
     void validateOneValidTransaction() throws Exception {
-        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
-
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + getJSONString(forwardTransactionDTO) + "]"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateValidTransactions(
+                getValidForwardTransactionDTO());
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
@@ -37,7 +24,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCustomer(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -50,7 +37,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCustomer("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -63,7 +50,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCustomer("yoda1");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -76,7 +63,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCcyPair(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -89,7 +76,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCcyPair("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -102,7 +89,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCcyPair("AAAAA");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -115,7 +102,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCcyPair("AAAAAAA");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -128,7 +115,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCcyPair("AAAEUR");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -141,7 +128,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setCcyPair("EURAAA");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -154,7 +141,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setDirection(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -167,7 +154,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setDirection("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -180,7 +167,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setDirection("buy");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -193,7 +180,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setTradeDate(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -206,7 +193,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setTradeDate("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -219,7 +206,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setTradeDate("12-12-2021");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -234,7 +221,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setAmount1(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -247,7 +234,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setAmount2(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -260,7 +247,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setRate(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -273,7 +260,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setLegalEntity(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -286,7 +273,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setLegalEntity("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -299,7 +286,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setLegalEntity("ubs ag");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -312,7 +299,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setTrader(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -325,7 +312,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setTrader("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -338,7 +325,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setValueDate(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -351,7 +338,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setValueDate("2020-08-08");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -364,7 +351,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setValueDate("2020-08-09");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -378,7 +365,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         forwardTransactionDTO.setTradeDate("2021-12-13");
         forwardTransactionDTO.setValueDate("2021-12-13");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -392,7 +379,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         forwardTransactionDTO.setTradeDate("2021-12-12");
         forwardTransactionDTO.setValueDate("2021-12-13");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -405,7 +392,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setValueDate("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -418,28 +405,11 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
         forwardTransactionDTO.setValueDate("12-12-2021");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only yyyy-MM-dd")
         );
-    }
-
-    private ForwardTransactionDTO getValidForwardTransactionDTO() {
-        ForwardTransactionDTO forwardTransactionDTO = new ForwardTransactionDTO();
-        forwardTransactionDTO.setCustomer("YODA1");
-        forwardTransactionDTO.setCcyPair("EURUSD");
-        forwardTransactionDTO.setDirection("BUY");
-        forwardTransactionDTO.setTradeDate("2020-08-11");
-        forwardTransactionDTO.setAmount1(BigDecimal.valueOf(100000000, 2));
-        forwardTransactionDTO.setAmount2(BigDecimal.valueOf(112000000, 2));
-        forwardTransactionDTO.setRate(BigDecimal.valueOf(112, 2));
-        forwardTransactionDTO.setLegalEntity("UBS AG");
-        forwardTransactionDTO.setTrader("Josef Schoenberger");
-
-        forwardTransactionDTO.setValueDate("2020-08-10");
-
-        return forwardTransactionDTO;
     }
 }

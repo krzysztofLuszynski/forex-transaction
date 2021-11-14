@@ -4,29 +4,16 @@ import forex.transaction.dto.SpotTransactionDTO;
 import forex.transaction.dto.TransactionsValidationResultDTO;
 import forex.transaction.dto.ValidationErrorDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class TransactionValidationControllerSpotIT extends AbstractTransactionValidationControllerIT {
     @Test
     void validateOneValidTransaction() throws Exception {
-        SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
-
-        MvcResult result = mvc.perform(
-                        post("/validate")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("[" + getJSONString(spotTransactionDTO) + "]"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        TransactionsValidationResultDTO transactionsValidationResultDTO = getTransactionsValidationResult(result);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateValidTransactions(
+                getValidSpotTransactionDTO());
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).isEmpty();
@@ -37,7 +24,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCustomer(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -50,7 +37,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCustomer("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -63,7 +50,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCustomer("yoda1");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -76,7 +63,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCcyPair(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -89,7 +76,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCcyPair("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -102,7 +89,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCcyPair("AAAAA");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -115,7 +102,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCcyPair("AAAAAAA");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -128,7 +115,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCcyPair("AAAEUR");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -141,7 +128,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setCcyPair("EURAAA");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -156,7 +143,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setDirection(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -169,7 +156,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setDirection("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -182,7 +169,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setDirection("buy");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -195,7 +182,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setTradeDate(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -208,7 +195,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setTradeDate("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -221,7 +208,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setTradeDate("12-12-2021");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -234,7 +221,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setAmount1(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -247,7 +234,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setAmount2(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -260,7 +247,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setRate(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -273,7 +260,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setLegalEntity(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -286,7 +273,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setLegalEntity("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -299,7 +286,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setLegalEntity("ubs ag");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -312,7 +299,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setTrader(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -325,7 +312,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setTrader("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -338,7 +325,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setValueDate(null);
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -351,7 +338,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setValueDate("2020-08-08");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -364,7 +351,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setValueDate("2020-08-09");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -378,7 +365,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         spotTransactionDTO.setTradeDate("2021-12-13");
         spotTransactionDTO.setValueDate("2021-12-13");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -392,7 +379,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         spotTransactionDTO.setTradeDate("2021-12-12");
         spotTransactionDTO.setValueDate("2021-12-13");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -405,7 +392,7 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setValueDate("");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
@@ -418,28 +405,11 @@ class TransactionValidationControllerSpotIT extends AbstractTransactionValidatio
         SpotTransactionDTO spotTransactionDTO = getValidSpotTransactionDTO();
         spotTransactionDTO.setValueDate("12-12-2021");
 
-        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(spotTransactionDTO);
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(spotTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
         assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only yyyy-MM-dd")
         );
-    }
-
-    private SpotTransactionDTO getValidSpotTransactionDTO() {
-        SpotTransactionDTO spotTransactionDTO = new SpotTransactionDTO();
-        spotTransactionDTO.setCustomer("YODA1");
-        spotTransactionDTO.setCcyPair("EURUSD");
-        spotTransactionDTO.setDirection("BUY");
-        spotTransactionDTO.setTradeDate("2020-08-11");
-        spotTransactionDTO.setAmount1(BigDecimal.valueOf(100000000, 2));
-        spotTransactionDTO.setAmount2(BigDecimal.valueOf(112000000, 2));
-        spotTransactionDTO.setRate(BigDecimal.valueOf(112, 2));
-        spotTransactionDTO.setLegalEntity("UBS AG");
-        spotTransactionDTO.setTrader("Josef Schoenberger");
-
-        spotTransactionDTO.setValueDate("2020-08-10");
-
-        return spotTransactionDTO;
     }
 }
