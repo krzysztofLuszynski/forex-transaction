@@ -347,10 +347,36 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
     }
 
     @Test
+    void validateInvalidTransactionSaturdayValueDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setValueDate("2020-08-08");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be on Saturday or Sunday")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionSundayValueDate() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
+        forwardTransactionDTO.setValueDate("2020-08-09");
+
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be on Saturday or Sunday")
+        );
+    }
+
+    @Test
     void validateInvalidTransactionValueDateEqualsTradeDate() throws Exception {
         ForwardTransactionDTO forwardTransactionDTO = getValidForwardTransactionDTO();
-        forwardTransactionDTO.setTradeDate("2021-12-12");
-        forwardTransactionDTO.setValueDate("2021-12-12");
+        forwardTransactionDTO.setTradeDate("2021-12-13");
+        forwardTransactionDTO.setValueDate("2021-12-13");
 
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransaction(forwardTransactionDTO);
 
