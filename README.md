@@ -70,7 +70,7 @@ curl --request GET http://localhost:8080/forex-transaction/actuator/metrics/http
 
 ### Extra activity
 #### Expose performance metrics of the application including: number of requests processed, processing time (min, max, average quantile95) - enabled only actuator, should implement https://docs.spring.io/spring-metrics/docs/current/public/prometheus but do not have more time for that
-#### Describe and present the approach for providing high availability of the service and its scalability - The simplest change would be to try to use parallel streams for large requests, so we can use many threads, the only point is that first we need to assign each transaction number, so we will have them in the output just like with current solution.
+#### Describe and present the approach for providing high availability of the service and its scalability - The simplest change would be to try to use parallel streams for large requests, so we can use many threads, the only point is that first we need to assign each transaction number, so we will have them in the output just like with current solution. Also all logs with errors and transactions should be analysed and probably removed in case of many entries.
 #### Create online documentation of the REST API exposed by the service - I would use openAPI, something like that: https://swagger.io/specification/ we were using that in former company for contact first approach
 
 ### Assumptions:

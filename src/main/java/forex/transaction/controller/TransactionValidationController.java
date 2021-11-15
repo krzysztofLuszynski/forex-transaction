@@ -35,8 +35,10 @@ public class TransactionValidationController {
                 = new TransactionsValidationResultDTO(transactionNumber, transactionValidationErrorDTOs);
 
         if (transactionValidationErrorDTOs.isEmpty()) {
+            log.debug("Validation did not report any errors");
             return new ResponseEntity<>(transactionsValidationResultDTO, HttpStatus.OK);
         } else {
+            log.debug("Validation reported errors: {}", transactionValidationErrorDTOs);
             return new ResponseEntity<>(transactionsValidationResultDTO, HttpStatus.BAD_REQUEST);
         }
     }
