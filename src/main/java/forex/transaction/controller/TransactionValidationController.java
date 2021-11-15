@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -23,16 +24,15 @@ public class TransactionValidationController {
         log.debug("Transactions validation for transactions: {}", transactionDTOs);
 
         TransactionValidator transactionValidator = new TransactionValidator();
-        List<ValidationErrorDTO> transactionValidationErrorDTOs = new ArrayList<>();
-        long transactionNumber = 0;
-        for (TransactionDTO transactionDTO : transactionDTOs) {
-            ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(transactionDTO, transactionNumber+1);
-            transactionValidationErrorDTOs.addAll(transactionValidator.validate(validationContext));
-            transactionNumber++;
-        }
+
+        List<ValidationErrorDTO> transactionValidationErrorDTOs = createValidationContexts(transactionDTOs)
+                .stream()
+                .map(transactionValidator::validate)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
 
         TransactionsValidationResultDTO transactionsValidationResultDTO
-                = new TransactionsValidationResultDTO(transactionNumber, transactionValidationErrorDTOs);
+                = new TransactionsValidationResultDTO(transactionDTOs.size(), transactionValidationErrorDTOs);
 
         if (transactionValidationErrorDTOs.isEmpty()) {
             log.debug("Validation did not report any errors");
@@ -41,5 +41,18 @@ public class TransactionValidationController {
             log.debug("Validation reported errors: {}", transactionValidationErrorDTOs);
             return new ResponseEntity<>(transactionsValidationResultDTO, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private List<ValidationContext<TransactionDTO>> createValidationContexts(List<TransactionDTO> transactionDTOs) {
+        List<ValidationContext<TransactionDTO>> validationContexts = new ArrayList<>();
+        
+        long transactionNumber = 0;
+        for (TransactionDTO transactionDTO : transactionDTOs) {
+            ValidationContext<TransactionDTO> validationContext = new ValidationContext<>(transactionDTO, transactionNumber+1);
+            validationContexts.add(validationContext);
+            transactionNumber++;
+        }
+
+        return validationContexts;
     }
 }
