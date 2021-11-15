@@ -38,21 +38,20 @@ curl --request GET http://localhost:8080/forex-transaction/actuator/metrics/http
 ```
 
 ## Solution discussion
-### Because I have not much time for this task I decided to take following assumptions:
-#### For such endpoint it would be good to validate much more for example date formats, if fields are present or not etc, but because there is nothing such stated in the task I am skipping that
-#### Also because of that I decided to return 200 when no validation errors, 400 when there are validation errors
+#### Decided to return 200 when no validation errors, 400 when there are validation errors
 #### Decided to return number of all transactionDTOS along with list of validation errors
-#### Because transactionDTOS do not have unique id (which in my opinion is bad) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
-#### Error are returned in sequence one transaction per another, however inside of one transaction if multiple errors - they are not sorted - can be as improvement
-#### Based on https://www.investopedia.com/terms/v/vanillaoption.asp - changed excercise to exercise in vanilla option
+#### Because transactionDTOS do not have unique id (which in my opinion is bad and should be corrected after discussion with product owner) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
+#### Errors are returned in sequence one transaction per another, however inside of one transaction if multiple errors - they are not sorted - can be as improvement
+#### Based on https://www.investopedia.com/terms/v/vanillaoption.asp - changed excercise to exercise in vanilla option - should be corrected after discussion with product owner
 #### No value date for vanilla options in attached demo data - applying this field only to spots and forwards, along with validations
-#### I do not like CcyPair - I would introduce currency1 and currency2 - the same like for amount1 and amount2 - I had to introduce separate constraint because of that !
-#### Also naming like PayCcy, PremiumCcy is poor - I would use full names PaymentCurrency and PremiumCurrency
+#### I do not like CcyPair - I would introduce currency1 and currency2 - the same like for amount1 and amount2 - I had to introduce separate constraint because of that ! - should be corrected after discussion with product owner
+#### Also naming like PayCcy, PremiumCcy is poor - I would use full names PaymentCurrency and PremiumCurrency - should be corrected after discussion with product owner
 #### IT in purpose are having so many cases (some of them are tested in junits for validators), because these tests are still fast and they are the contract of validation
 #### Test coverage is 96% lines, 92% of methods - not covered some lombok annotations
 #### I think this task is far too much for simple job interview - I spent more then 17 hours on this task and did not finished with dates for currencies and extra activities
-#### In my opinion there should be much less validations, then I can focus also on extra activites
-#### Such task should focus on different aspects, not just implementing many rules with tests !
+#### In my opinion there should be much less validations, then I can focus also on extra activities
+#### There is statement about current date - I think it would be nice to introduce validation that date can not be past/future from current date, but current date could be parametrized - no such task here...
+#### Such task should focus on different aspects, not just crazy implementing many rules with tests !
 
 ## TODO
 ### All types of trades:
@@ -142,5 +141,9 @@ curl --request GET http://localhost:8080/forex-transaction/actuator/metrics/http
 #### Added validations for currency for single value along with tests
 #### Added validations for CcyPair along with tests
 #### Added validation for non working days along with tests
+
+### Final cleanup - 1h
+#### Enabling actuator
+#### Cleaning README
 
 
