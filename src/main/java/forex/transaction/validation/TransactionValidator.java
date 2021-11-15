@@ -10,27 +10,22 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TransactionValidator {
     public List<ValidationErrorDTO> validate(ValidationContext<TransactionDTO> validationContext) {
-        List<ValidationErrorDTO> validationErrorDTOs = new ArrayList<>();
         TransactionDTO transactionDTO = validationContext.getTransactionDTO();
 
+        return getConstraintViolations(transactionDTO).stream()
+                .map(violation -> getValidationErrorForViolation(violation, validationContext))
+                .sorted(Comparator.comparing(ValidationErrorDTO::getMessage, String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
+    }
+
+    private Set<ConstraintViolation<TransactionDTO>> getConstraintViolations(TransactionDTO transactionDTO) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<TransactionDTO>> violations = validator.validate(transactionDTO);
-        for (ConstraintViolation<TransactionDTO> violation : violations) {
-            Set<String> affectedFields = getAffectedFields(violation);
-            validationErrorDTOs.add(
-                    new ValidationErrorDTO(
-                            validationContext.getTransactionNumber(),
-                            affectedFields,
-                            violation.getMessageTemplate()
-                    )
-            );
-        }
-
-        return validationErrorDTOs;
+        return validator.validate(transactionDTO);
     }
 
     private Set<String> getAffectedFields(ConstraintViolation<TransactionDTO> violation) {
@@ -42,6 +37,15 @@ public class TransactionValidator {
         } else {
             return Set.of(violation.getPropertyPath().toString());
         }
+    }
 
+    ValidationErrorDTO getValidationErrorForViolation(ConstraintViolation<TransactionDTO> violation,
+                                                      ValidationContext<TransactionDTO> validationContext) {
+        Set<String> affectedFields = getAffectedFields(violation);
+        return new ValidationErrorDTO(
+                validationContext.getTransactionNumber(),
+                affectedFields,
+                violation.getMessageTemplate()
+        );
     }
 }

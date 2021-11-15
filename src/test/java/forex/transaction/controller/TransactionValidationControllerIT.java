@@ -50,7 +50,7 @@ public class TransactionValidationControllerIT extends AbstractTransactionValida
                 invalidVanillaOptionEuropeanTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(8);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(2L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),
                 new ValidationErrorDTO(2L, Set.of("legalEntity"), "Legal entity can be only UBS AG"),
                 new ValidationErrorDTO(3L, Set.of("customer"), "Customer can be only YODA1 or YODA2"),

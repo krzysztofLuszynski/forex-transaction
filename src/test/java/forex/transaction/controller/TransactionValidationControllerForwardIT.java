@@ -1,6 +1,7 @@
 package forex.transaction.controller;
 
 import forex.transaction.dto.ForwardTransactionDTO;
+import forex.transaction.dto.SpotTransactionDTO;
 import forex.transaction.dto.TransactionsValidationResultDTO;
 import forex.transaction.dto.ValidationErrorDTO;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("customer"), "Customer can not be null")
         );
     }
@@ -40,7 +41,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2")
         );
     }
@@ -53,7 +54,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("customer"), "Customer can be only YODA1 or YODA2")
         );
     }
@@ -66,7 +67,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair can not be null")
         );
     }
@@ -79,7 +80,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
         );
     }
@@ -92,7 +93,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
         );
     }
@@ -105,7 +106,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
         );
     }
@@ -118,7 +119,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
         );
     }
@@ -131,7 +132,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair must contain two ISO-4217 currencies")
         );
     }
@@ -144,7 +145,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("direction"), "Direction can not be null")
         );
     }
@@ -157,7 +158,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("direction"), "Direction can be only BUY or SELL")
         );
     }
@@ -170,7 +171,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("direction"), "Direction can be only BUY or SELL")
         );
     }
@@ -183,7 +184,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date can not be null")
         );
     }
@@ -196,7 +197,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only yyyy-MM-dd")
         );
     }
@@ -209,7 +210,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date format can be only yyyy-MM-dd")
         );
     }
@@ -224,7 +225,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("amount1"), "Amount1 can not be null")
         );
     }
@@ -237,7 +238,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("amount2"), "Amount2 can not be null")
         );
     }
@@ -250,7 +251,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("rate"), "Rate can not be null")
         );
     }
@@ -263,7 +264,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can not be null")
         );
     }
@@ -276,7 +277,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG")
         );
     }
@@ -289,7 +290,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can be only UBS AG")
         );
     }
@@ -302,7 +303,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("trader"), "Trader can not be blank")
         );
     }
@@ -315,7 +316,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("trader"), "Trader can not be blank")
         );
     }
@@ -328,7 +329,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be null")
         );
     }
@@ -341,7 +342,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be on Saturday or Sunday")
         );
     }
@@ -354,7 +355,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be on Saturday or Sunday")
         );
     }
@@ -368,7 +369,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, getPropertiesSet("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
         );
     }
@@ -382,7 +383,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, getPropertiesSet("valueDate", "tradeDate"), "Value date can not be after or equal trade date")
         );
     }
@@ -395,7 +396,7 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only yyyy-MM-dd")
         );
     }
@@ -408,8 +409,28 @@ class TransactionValidationControllerForwardIT extends AbstractTransactionValida
         TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
 
         assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
-        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactlyInAnyOrder(
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
                 new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date format can be only yyyy-MM-dd")
+        );
+    }
+
+    @Test
+    void validateInvalidTransactionAllNullFields() throws Exception {
+        ForwardTransactionDTO forwardTransactionDTO = new ForwardTransactionDTO();
+        TransactionsValidationResultDTO transactionsValidationResultDTO = validateInvalidTransactions(forwardTransactionDTO);
+
+        assertThat(transactionsValidationResultDTO.getTransactionsNumber()).isEqualTo(1);
+        assertThat(transactionsValidationResultDTO.getValidationErrorDTOS()).containsExactly(
+                new ValidationErrorDTO(1L, Set.of("amount1"), "Amount1 can not be null"),
+                new ValidationErrorDTO(1L, Set.of("amount2"), "Amount2 can not be null"),
+                new ValidationErrorDTO(1L, Set.of("ccyPair"), "CcyPair can not be null"),
+                new ValidationErrorDTO(1L, Set.of("customer"), "Customer can not be null"),
+                new ValidationErrorDTO(1L, Set.of("direction"), "Direction can not be null"),
+                new ValidationErrorDTO(1L, Set.of("legalEntity"), "Legal entity can not be null"),
+                new ValidationErrorDTO(1L, Set.of("rate"), "Rate can not be null"),
+                new ValidationErrorDTO(1L, Set.of("tradeDate"), "Trade date can not be null"),
+                new ValidationErrorDTO(1L, Set.of("trader"), "Trader can not be blank"),
+                new ValidationErrorDTO(1L, Set.of("valueDate"), "Value date can not be null")
         );
     }
 }

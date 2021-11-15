@@ -41,7 +41,7 @@ curl --request GET http://localhost:8080/forex-transaction/actuator/metrics/http
 #### Decided to return 200 when no validation errors, 400 when there are validation errors
 #### Decided to return number of all transactionDTOS along with list of validation errors
 #### Because transactionDTOS do not have unique id (which in my opinion is bad and should be corrected after discussion with product owner) I decided to put transactionDTO number in every error and it matches number of transactionDTO in original request
-#### Errors are returned in sequence one transaction per another, however inside of one transaction if multiple errors - they are not sorted - can be as improvement
+#### Errors are returned in sequence one transaction per another, however inside of one transaction if multiple errors they are sorted based on message by case insensitive order
 #### Based on https://www.investopedia.com/terms/v/vanillaoption.asp - changed excercise to exercise in vanilla option - should be corrected after discussion with product owner
 #### No value date for vanilla options in attached demo data - applying this field only to spots and forwards, along with validations
 #### I do not like CcyPair - I would introduce currency1 and currency2 - the same like for amount1 and amount2 - I had to introduce separate constraint because of that ! - should be corrected after discussion with product owner
@@ -145,5 +145,6 @@ curl --request GET http://localhost:8080/forex-transaction/actuator/metrics/http
 ### Final cleanup - 1h
 #### Enabling actuator
 #### Cleaning README
+#### Added sorting messages for one transaction based on message
 
 
