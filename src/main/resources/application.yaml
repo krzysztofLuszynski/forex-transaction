@@ -4,3 +4,8 @@ server:
 logging:
   level:
     forex.transaction: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -28,7 +28,13 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA1\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-19\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-12\",\"legalEntity\":\"UBS AG\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
 # Example of validation of one valid VanillaOption transactionDTO
 curl --header "Content-Type: application/json" --request POST --data "[{\"customer\":\"YODA4\",\"ccyPair\":\"EURUSD\",\"type\":\"VanillaOption\",\"style\":\"EUROPEAN1\",\"direction\":\"BUY\",\"strategy\":\"CALL\",\"tradeDate\":\"2020-08-11\",\"amount1\":1000000.00,\"amount2\":1120000.00,\"rate\":1.12,\"deliveryDate\":\"2020-08-22\",\"expiryDate\":\"2020-08-23\",\"payCcy\":\"USD\",\"premium\":0.20,\"premiumCcy\":\"USD\",\"premiumType\":\"%USD\",\"premiumDate\":\"2020-08-24\",\"legalEntity\":\"UBS AG1\",\"trader\":\"Josef Schoenberger\"}]" http://localhost:8080/forex-transaction/validate
-                    
+
+# All actuator endpoints                   
+curl --request GET http://localhost:8080/forex-transaction/actuator
+# Actuator health page
+curl --request GET http://localhost:8080/forex-transaction/actuator/health
+# Actuator request metrics
+curl --request GET http://localhost:8080/forex-transaction/actuator/metrics/http.server.requests                             
 ```
 
 ## Solution discussion
@@ -62,6 +68,11 @@ curl --header "Content-Type: application/json" --request POST --data "[{\"custom
 #### the style can be either American or European - DONE
 #### American option style will have in addition the exerciseStartDate, which has to be after the trade date but before the expiry date - DONE
 #### expiry date and premium date shall be before delivery date - DONE
+
+### Extra activity
+#### Expose performance metrics of the application including: number of requests processed, processing time (min, max, average quantile95) - enabled only actuator, should implement https://docs.spring.io/spring-metrics/docs/current/public/prometheus but do not have more time for that
+#### Describe and present the approach for providing high availability of the service and its scalability - The simplest change would be to try to use parallel streams for large requests, so we can use many threads, the only point is that first we need to assign each transaction number, so we will have them in the output just like with current solution.
+#### Create online documentation of the REST API exposed by the service - I would use openAPI, something like that: https://swagger.io/specification/ we were using that in former company for contact first approach
 
 ### Assumptions:
 #### Current date is 09.10.2020 - why do we need this assumption ???
