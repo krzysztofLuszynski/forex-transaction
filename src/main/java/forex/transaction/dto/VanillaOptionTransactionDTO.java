@@ -69,6 +69,8 @@ public class VanillaOptionTransactionDTO extends TransactionDTO {
     @DateFormatConstraint(message = "Premium date format can be only yyyy-MM-dd")
     String premiumDate;
 
+    // needed for reflective call from BeanWrapperImpl to know which style it is
+    // so first date before second date validation does can be used for AMERICAN only also
     @SuppressWarnings("unused")
     public boolean getApplicableForAmericanStyle() {
         return StringUtils.equals(style, "AMERICAN");

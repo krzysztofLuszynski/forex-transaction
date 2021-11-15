@@ -13,5 +13,6 @@ public class ValidationErrorDTO {
     String message;
 
     // needed for jackson only
+    @SuppressWarnings("unused")
     ValidationErrorDTO() {}
 }

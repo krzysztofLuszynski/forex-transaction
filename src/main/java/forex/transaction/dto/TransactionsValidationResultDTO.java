@@ -12,5 +12,6 @@ public class TransactionsValidationResultDTO {
     List<ValidationErrorDTO> validationErrorDTOS;
 
     // needed for jackson only
+    @SuppressWarnings("unused")
     TransactionsValidationResultDTO() {}
 }
